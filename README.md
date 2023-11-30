@@ -62,6 +62,6 @@ Follow the steps under [Usage](#usage) to set up and run the project. You can th
 
 Contributing
 Feel free to contribute by opening issues or pull requests. Your feedback and improvements are highly appreciated!
-License
-This project is licensed under the MIT License.
+## License
+This project is licensed under the [MIT License](./LICENSE).
 
