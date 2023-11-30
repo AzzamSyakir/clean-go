@@ -58,7 +58,7 @@ cmd/main.go: Entry point of the application. It initializes necessary components
 - github.com/joho/godotenv: Loads environment variables from a file.
 - github.com/dgrijalva/jwt-go: JSON Web Token (JWT) library for Go.
 ## Getting Started
-Follow the steps under [Usage](Usage/readme.md) to set up and run the project. You can then start building your application logic within the controller, service, and repository layers.
+Follow the steps under [Usage](#usage) to set up and run the project. You can then start building your application logic within the controller, service, and repository layers.
 
 Contributing
 Feel free to contribute by opening issues or pull requests. Your feedback and improvements are highly appreciated!
