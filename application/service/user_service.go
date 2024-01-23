@@ -42,7 +42,7 @@ func (service *UserService) CreateUser(name, email, password string) error {
 		return err
 	}
 
-	return nil
+	return err
 }
 
 func (us *UserService) FetchUser() ([]entities.User, error) {
@@ -110,7 +110,7 @@ func (service *UserService) DeleteUser(id int) error {
 		return err
 	}
 
-	return nil
+	return err
 }
 func (us *UserService) GetUser(id string) (*entities.User, error) {
 	return us.UserRepository.GetUser(id)
@@ -187,11 +187,11 @@ func (us *UserService) LogoutUser(tokenString string) error {
 	// Mengekstrak klaim dari token
 	claims, ok := token.Claims.(*DataUsers)
 	if !ok {
-		return nil
+		return err
 	}
 	userID := claims.UserId
 	currentTime := time.Now()
 
 	us.UserRepository.LogoutUser(userID, currentTime)
-	return nil
+	return err
 }

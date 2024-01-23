@@ -1,4 +1,4 @@
-package routes
+package router
 
 import (
 	"clean-golang/application/controller"
@@ -7,12 +7,14 @@ import (
 	"clean-golang/application/service"
 	"clean-golang/config"
 	"database/sql"
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-func SetupRoutes(db *sql.DB) *mux.Router {
+func Router(db *sql.DB) *mux.Router {
 	// Initialize repositories
 	userRepository := repositories.NewUserRepository(db)
 
@@ -44,10 +46,16 @@ func SetupRoutes(db *sql.DB) *mux.Router {
 }
 
 func RunServer() {
-	db := config.InitDB()
-	router := SetupRoutes(db)
+	// Initialize database
+	db, err := config.InitDB()
+	if err != nil {
+		log.Fatal(fmt.Errorf("error connecting to db: %w", err))
+	}
+	defer db.Close() // Pastikan koneksi database ditutup
+
+	router := Router(db)
 
 	// Mulai server HTTP dengan router yang telah dikonfigurasi
 	http.Handle("/", router)
-	http.ListenAndServe(":9000", nil)
+	log.Fatal(http.ListenAndServe(":9000", nil))
 }

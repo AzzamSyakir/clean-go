@@ -1,4 +1,4 @@
-package migration
+package migrate
 
 import (
 	"database/sql"
@@ -6,7 +6,7 @@ import (
 )
 
 // TokenMigrate digunakan untuk menjalankan migrasi tabel token.
-func TokenMigrate(db *sql.DB) {
+func TokenMigrate(db *sql.DB) error {
 	// SQL statement untuk memeriksa apakah tabel token sudah ada
 	checkTableSQL := `
         SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'tokens'
@@ -18,13 +18,13 @@ func TokenMigrate(db *sql.DB) {
 	if err != nil {
 		// Menangani kesalahan jika terjadi kesalahan saat memeriksa tabel
 		log.Fatal(err)
-		return
+		return err
 	}
 
 	if tableCount > 0 {
 		// Jika tabel sudah ada, tampilkan pesan
 		log.Println("Tabel tokens sudah di migrasi")
-		return
+		return err
 	}
 
 	// SQL statement untuk membuat tabel token dengan kolom "revoke"
@@ -46,9 +46,11 @@ func TokenMigrate(db *sql.DB) {
 	if err != nil {
 		// Menangani kesalahan jika terjadi kesalahan saat migrasi
 		log.Fatal(err)
-		return
+		return err
 	}
 
 	// Pesan sukses jika migrasi berhasil
 	log.Println("Migrasi tabel tokens berhasil")
+	return err
+
 }

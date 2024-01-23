@@ -61,7 +61,7 @@ func (ur *UserRepository) UpdateUser(user entities.User) error {
 		return err
 	}
 
-	return nil
+	return err
 }
 
 func (ur *UserRepository) DeleteUser(id int) error {
@@ -80,7 +80,7 @@ func (ur *UserRepository) DeleteUser(id int) error {
 		return fmt.Errorf("user with ID %d not found", id)
 	}
 
-	return nil
+	return err
 }
 func (ur *UserRepository) GetUser(id string) (*entities.User, error) {
 	user := &entities.User{}
@@ -128,7 +128,7 @@ func (ur *UserRepository) SaveToken(TokensID, userID string, token string, expir
 		return fmt.Errorf("gagal menyimpan token: %v", err)
 	}
 
-	return nil
+	return err
 }
 func (ur *UserRepository) LogoutUser(userId string, updatedAt time.Time) error {
 	logoutUserSQL := `
@@ -149,5 +149,5 @@ func (ur *UserRepository) LogoutUser(userId string, updatedAt time.Time) error {
 		return fmt.Errorf("userID %s not found", userId)
 	}
 
-	return nil
+	return err
 }

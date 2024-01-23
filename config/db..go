@@ -1,7 +1,6 @@
 package config
 
 import (
-	"clean-golang/application/migration"
 	"database/sql"
 	"fmt"
 	"os"
@@ -13,7 +12,7 @@ import (
 var DB *sql.DB
 
 // InitDB digunakan untuk menghubungkan ke database.
-func InitDB() *sql.DB {
+func InitDB() (*sql.DB, error) {
 
 	//baca env nya
 	sqlInfo := fmt.Sprintf(
@@ -39,10 +38,7 @@ func InitDB() *sql.DB {
 
 	log.Info().Msg("Terhubung ke database!")
 
-	// Panggil fungsi migrate untuk inisialisasi migrasi database
-	migration.UserMigrate(db) // User -> Order
-
 	DB = db
 
-	return db
+	return db, nil
 }
