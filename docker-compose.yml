@@ -1,17 +1,5 @@
 version: "3"
 services:
-  laravel:
-    tty: true
-    container_name: laravel
-    restart: always
-    build:
-      context: .
-      dockerfile: /home/asa/Project/service/Laravel/Dockerfile
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./Laravel/:/var/www/html
-
   golang: 
     tty: true
     container_name: golang
