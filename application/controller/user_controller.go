@@ -25,6 +25,7 @@ func NewUserController(us service.UserService) *UserController {
 
 func (uc *UserController) CreateUserController(w http.ResponseWriter, r *http.Request) {
 	var user struct {
+		ID       string `json:"id"`
 		Name     string `json:"name"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -35,7 +36,7 @@ func (uc *UserController) CreateUserController(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	err := uc.userService.CreateUser(user.Name, user.Email, user.Password)
+	err := uc.userService.CreateUser(user.ID, user.Name, user.Email, user.Password)
 	if err != nil {
 		errorMessage := fmt.Sprintf("Failed to create user: %v", err)
 		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)

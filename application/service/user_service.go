@@ -23,16 +23,20 @@ func NewUserService(userRepository repositories.UserRepository) *UserService {
 	}
 }
 
-func (service *UserService) CreateUser(name, email, password string) error {
+func (service *UserService) CreateUser(id string, name, email, password string) error {
 	// Hashing password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
-	// Generate a UUID for the user
-	uuid := uuid.New()
-	userID := uuid.String()
-
+	// Generate a UUID if ID is not provided
+	var userID string
+	if id == "" {
+		uuid := uuid.New()
+		userID = uuid.String()
+	} else {
+		userID = id
+	}
 	// Current time
 	currentTime := time.Now()
 
@@ -76,10 +80,6 @@ func (service *UserService) UpdateUser(id string, updatedUser entities.User) (en
 	if updatedUser.Email != "" {
 		user.Email = updatedUser.Email
 	}
-
-	// Generate a new UUID for the user
-	newUUID := uuid.New()
-	user.ID = newUUID.String()
 
 	// Set the updated time
 	user.UpdatedAt = time.Now()
