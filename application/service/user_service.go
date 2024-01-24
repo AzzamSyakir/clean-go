@@ -49,8 +49,8 @@ func (service *UserService) CreateUser(id string, name, email, password string) 
 	return err
 }
 
-func (us *UserService) FetchUser() ([]entities.User, error) {
-	return us.UserRepository.FetchUser()
+func (us *UserService) FetchUsers() ([]entities.User, error) {
+	return us.UserRepository.FetchUsers()
 }
 func (service *UserService) UpdateUser(id string, updatedUser entities.User) (entities.User, error) {
 	// Business logic/validation goes here

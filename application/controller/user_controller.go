@@ -61,10 +61,17 @@ func (uc *UserController) CreateUserController(w http.ResponseWriter, r *http.Re
 	responses.SuccessResponse(w, "Success", userData, http.StatusCreated)
 }
 func (uc *UserController) FetchUserController(w http.ResponseWriter, r *http.Request) {
-	usersData, err := uc.userService.FetchUser()
+	usersData, err := uc.userService.FetchUsers()
 	if err != nil {
+		fmt.Println("tes")
 		errorMessage := fmt.Sprintf("Failed to get users: %v", err)
 		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)
+		return
+	}
+	// Check if users slice is empty
+	if len(usersData) == 0 {
+		errorMessage := "No user data found"
+		responses.ErrorResponse(w, errorMessage, http.StatusNotFound)
 		return
 	}
 

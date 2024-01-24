@@ -26,7 +26,7 @@ func (ur *UserRepository) CreateUser(id, name, email, hashedPassword string, cre
 	return err
 }
 
-func (ur *UserRepository) FetchUser() ([]entities.User, error) {
+func (ur *UserRepository) FetchUsers() ([]entities.User, error) {
 	rows, err := ur.db.Query("SELECT id, name, email, password, created_at, updated_at FROM users")
 	if err != nil {
 		return nil, err
