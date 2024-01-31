@@ -64,7 +64,7 @@ func (ur *UserRepository) UpdateUser(user entities.User) error {
 	return err
 }
 
-func (ur *UserRepository) DeleteUser(id int) error {
+func (ur *UserRepository) DeleteUser(id string) error {
 	result, err := ur.db.Exec("DELETE FROM users WHERE id=?", id)
 	if err != nil {
 		return err
@@ -77,10 +77,28 @@ func (ur *UserRepository) DeleteUser(id int) error {
 
 	if rowsAffected == 0 {
 		// Tidak ada baris yang terpengaruh, user dengan ID tersebut tidak ditemukan
-		return fmt.Errorf("user with ID %d not found", id)
+		return fmt.Errorf("user with ID %s not found", id)
 	}
 
 	return err
+}
+func (ur *UserRepository) DeleteToken(id string) error {
+	result, err := ur.db.Exec("DELETE FROM tokens WHERE user_id=?", id)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		// Tidak ada baris yang terpengaruh, foreign key  dengan ID tersebut tidak ditemukan
+		fmt.Printf("Foreign key user ID %s not found\n", id)
+	}
+
+	return nil
 }
 func (ur *UserRepository) GetUser(id string) (*entities.User, error) {
 	user := &entities.User{}
