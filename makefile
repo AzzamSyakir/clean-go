@@ -6,3 +6,5 @@ run:
 migrate:
 	go run cmd/main.go migrate
 
+test :
+	go test -v ./test
