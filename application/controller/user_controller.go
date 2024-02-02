@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	models "clean-golang/application/entities"
-	"clean-golang/application/responses"
-	"clean-golang/application/service"
+	models "clean-go/application/entities"
+	"clean-go/application/responses"
+	"clean-go/application/service"
 
 	"github.com/gorilla/mux"
 )
@@ -174,7 +174,7 @@ func (uc *UserController) UpdateUserController(w http.ResponseWriter, r *http.Re
 
 	// Return response with only updated data
 	w.Header().Set("Content-Type", "application/json")
-	responses.SuccessResponse(w, "Success", updatedData, http.StatusCreated)
+	responses.SuccessResponse(w, "Success", updatedData, http.StatusOK)
 }
 
 func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
@@ -193,7 +193,7 @@ func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responses.OtherResponses(w, "Success delete user", http.StatusCreated)
+	responses.OtherResponses(w, "Success delete user", http.StatusOK)
 }
 func (uc *UserController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	var requestUser map[string]string

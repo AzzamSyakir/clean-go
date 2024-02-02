@@ -1,8 +1,8 @@
 package service
 
 import (
-	"clean-golang/application/entities"
-	"clean-golang/application/repositories"
+	"clean-go/application/entities"
+	"clean-go/application/repositories"
 	"errors"
 	"fmt"
 	"os"

@@ -1,11 +1,11 @@
 package router
 
 import (
-	"clean-golang/application/controller"
-	"clean-golang/application/middleware"
-	"clean-golang/application/repositories"
-	"clean-golang/application/service"
-	"clean-golang/config"
+	"clean-go/application/controller"
+	"clean-go/application/middleware"
+	"clean-go/application/repositories"
+	"clean-go/application/service"
+	"clean-go/config"
 	"database/sql"
 	"fmt"
 	"log"

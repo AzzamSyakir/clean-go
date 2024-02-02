@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"clean-golang/application/entities"
+	"clean-go/application/entities"
 	"database/sql"
 	"errors"
 	"fmt"

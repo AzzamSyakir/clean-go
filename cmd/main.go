@@ -1,9 +1,9 @@
 package main
 
 import (
-	"clean-golang/application/router"
-	"clean-golang/config"
-	"clean-golang/migrate"
+	"clean-go/application/router"
+	"clean-go/config"
+	"clean-go/migrate"
 	"fmt"
 	"log"
 	"os"

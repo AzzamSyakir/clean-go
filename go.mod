@@ -1,4 +1,4 @@
-module clean-golang
+module clean-go
 
 go 1.21.1
 
