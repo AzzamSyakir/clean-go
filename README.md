@@ -35,10 +35,9 @@ This Golang project template is designed to showcase best practices for testing 
 To get started with this project, follow these steps:
 
 1. Clone the repository:
-```git
+``` git
 git clone this repo link
 cd your-repo
-
 ```
 2. Set up your environment variables:
 
