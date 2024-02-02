@@ -1,67 +1,142 @@
-# Clean Golang
-This is a clean architecture template for a Golang project, designed to enhance maintainability, scalability, and separation of concerns. It follows the principles of Clean Architecture, with three main layers: Controller (HTTP handling), Service (business logic), and Repository (database interaction).
 
-## Project Structure
-```clean-golang
-|-- cmd
-|   `-- main.go
-|-- application
-|   |-- router
-|   |   `-- routes.go
-|   |-- controller
-|   |   `-- user_controller.go
-|   |-- service
-|   |   `-- user_service.go
-|   |-- repository
-|   |   `-- user_repository.go
-|   |-- responses
-|   |   `-- responses.go
-|   |-- models
-|   |   `-- user.go
-|-- config
-|   `-- database.go
-|-- .env.example
-|-- go.mod
-|-- go.sum
-|-- README.md 
+# clean-go Project 
+
+Welcome to the **clean-go Project !** This project provides a structured and comprehensive template for testing **APIs**, covering basic **CRUD operations** for user management, including features like login and register.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Running Tests](#running-tests)
+- [Project Structure](#project-structure)
+  - [Explanation of Project Structure](#explanation-of-project-structure)
+- [Dependencies](#dependencies)
+- [Contributing](#contributing)
+
+## Introduction
+
+This Golang project template is designed to showcase best practices for testing in Go applications. It focuses on creating a simple API for user management, including registration, login, and basic CRUD operations. The goal is to provide a clean and well-organized foundation for building scalable and maintainable applications.
+
+
+# Features
+
+- **User Management**: Implement user registration, login, and basic CRUD operations.
+- **API Testing**: Comprehensive testing suite covering API endpoints.
+- **Environment Configuration**: Utilize environment variables for configuration.
+- **Database Interaction**: Interact with a MySQL database for user data storage.
+- **Structured Logging**: Employ structured logging for better traceability.
+- **Dependency Management**: Use Go modules for efficient dependency management.
+- **Consistent Coding Style**: Follow a consistent coding style for better code readability.
+- **Documentation**: Well-documented code and a README for easy understanding.
+
+# Getting Started
+
+To get started with this project, follow these steps:
+
+1. Clone the repository:
+```git
+git clone this repo link
+cd your-repo
+
+```
+2. Set up your environment variables:
+
+Create a **.env** file based on **.env.example** and fill in the required configuration.
+
+3. Install dependencies:
+
+```go
+go mod download
+```
+4. change your database configuration in **db.go** and setup tabels in package **migrate**
+
+5. run migrate to migrate your tabel to database 
+ ```make
+ make migrate
+ ```
+ 6. run projects
+ ```make
+ make or make run
+ ```
+# Running Tests
+
+To run tests, run the following command
+
+```bash
+  make test
+```
+
+# Project Structure
+
+The project structure is designed for clarity and maintainability, following a clean architecture approach:
+
+```plaintext
+/
+├── go.mod
+├── makefile
+├── .env
+├── cmd/
+│   └── main.go
+├── api/
+│   ├── controller/
+│   │   └── user_handlers.go (handles HTTP requests)
+│   ├── service/
+│   │   └── user_service.go (handles business logic)
+│   ├── repositories/
+│   │   └── user_repository.go (manages database interactions)
+│   ├── entities/
+│   │   └── user.go (declares the user entity)
+│   ├── middleware/
+│   │   └── middleware.go (houses middleware code)
+│   └── routes/
+│       └── routes.go (initializes routes and runs the server)
+├── migration/
+│   ├── User.go (initializes user table migration)
+│   ├── migrate.go (sets up migration file)
+│   └── token.go (initializes token table migration)
+└── config/
+    └── db.go (initializes database connection)
 ```
 
 
-## Usage
-Clone the repository: ``git clone https://github.com/yourusername/clean-golang.git``
-Navigate to the project directory: ``cd clean-golang``
-Copy the example environment file: ``cp .env.example .env``
-Modify the .env file with your database configuration.
-Run the project: ``go run cmd/main.go``
-## Overview
-cmd/main.go: Entry point of the application. It initializes necessary components and starts the server.
-### Application Layer
-- application/router/routes.go: Defines the application routes and connects them to the corresponding controllers.
 
-- application/controller/user_controller.go: Handles HTTP requests, validates input, and delegates business logic to the service layer.
+## explanation of project structure:
 
-- application/service/user_service.go: Contains business logic, interacts with the repository, and orchestrates operations.
+- **Controller Layer:** Handles HTTP requests and serves as the entry point for external communication.
 
-- application/repository/user_repository.go: Communicates with the database, performs CRUD operations, and returns data to the service layer.
+- **Service Layer:** Contains business logic and orchestrates data flow between the controller and repository layers.
 
-- application/responses/responses.go: Defines standard response formats for the application.
+- **Repository Layer:** Manages interactions with the database, providing an abstraction layer to the service.
 
-- application/models/user.go: Defines the data structure for the user entity.
+- **Entity Layer:** Declares data structures representing entities in the application, such as database tables.
 
-### Config
-- config/database.go: Manages the database connection and configuration.
-### Environment
-- .env.example: Example environment file with placeholders for configuration variables. Copy this file as .env and replace the placeholders with actual values.
-- Dependencies
-- github.com/gorilla/mux: A powerful HTTP router for building web applications.
-- golang.org/x/crypto/bcrypt: Library for handling password hashing.
-- github.com/joho/godotenv: Loads environment variables from a file.
-- github.com/dgrijalva/jwt-go: JSON Web Token (JWT) library for Go.
-## Getting Started
-Follow the steps under [Usage](#usage) to set up and run the project. You can then start building your application logic within the controller, service, and repository layers.
+- **Middleware Layer:** Houses middleware code for common functionalities.
 
-Contributing
-Feel free to contribute by opening issues or pull requests. Your feedback and improvements are highly appreciated!
-## License
-This project is licensed under the [MIT License](./LICENSE).
+- **Routes Layer:** Initializes routes for the server, connecting controllers to specific HTTP endpoints.
 
+- **Migration Layer:** Manages database migration files for initializing tables.
+
+- **Config Layer:** Initializes and manages the database connection.
+
+This architecture enhances maintainability by separating concerns and facilitating easier testing and scalability. Each layer has a distinct responsibility, contributing to a well-organized and comprehensible codebase.
+# dependencies
+The project uses Go modules for dependency management. To install dependencies, run:
+
+```bash
+go mod download
+```
+
+# Contributing
+
+Contributions are welcome! To contribute to the project, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature-name`.
+3. Make your changes and commit them: `git commit -m 'Add new feature'`.
+4. Push to the branch: `git push origin feature-name`.
+5. Submit a pull request.
+
+Please ensure your code follows the project's coding style and includes relevant tests. Your contributions will be reviewed, and once approved, they will be merged into the main branch.
+
+Thank you for contributing to the Clean Golang Template!
