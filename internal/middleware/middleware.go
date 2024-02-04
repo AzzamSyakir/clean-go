@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"clean-go/application/responses"
+	"clean-go/internal/responses"
 	"fmt"
 	"net/http"
 	"os"

@@ -2,15 +2,15 @@ package test
 
 import (
 	"bytes"
+	"clean-go/config"
+	"clean-go/internal/router"
+	"clean-go/migrate"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"clean-go/application/router"
-	"clean-go/config"
-	"clean-go/migrate"
 
 	"github.com/joho/godotenv"
 )
@@ -44,7 +44,7 @@ func TestRegisterAPI(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Content-Type", "internal/json")
 
 	// Kirim request
 	response, err := client.Do(request)
@@ -97,7 +97,7 @@ func TestLoginApi(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Content-Type", "internal/json")
 
 	// Kirim request
 	response, err := client.Do(request)
@@ -172,7 +172,7 @@ func TestFetchUserApi(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Content-Type", "internal/json")
 	request.Header.Set("Authorization", "Bearer "+token) // Set authorization header dengan token yang sudah di-generate pada tes login sebelumnya
 
 	// Kirim request
@@ -237,7 +237,7 @@ func TestGetUserApi(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Content-Type", "internal/json")
 	request.Header.Set("Authorization", "Bearer "+token) // Set authorization header dengan token yang sudah di-generate pada tes login sebelumnya
 
 	// Kirim request
@@ -302,7 +302,7 @@ func TestUpdateUserApi(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Content-Type", "internal/json")
 	request.Header.Set("Authorization", "Bearer "+token) // Set authorization header dengan token yang sudah di-generate pada tes login sebelumnya
 
 	// Kirim request
@@ -367,7 +367,7 @@ func TestDeleteUserApi(t *testing.T) {
 		return
 	}
 
-	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Content-Type", "internal/json")
 	request.Header.Set("Authorization", "Bearer "+token) // Set authorization header dengan token yang sudah di-generate pada tes login sebelumnya
 
 	// Kirim request

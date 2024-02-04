@@ -22,7 +22,7 @@ func ErrorResponse(w http.ResponseWriter, message string, status int) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "internal/json")
 	w.WriteHeader(status)
 	w.Write(responseJSON)
 }
@@ -46,7 +46,7 @@ func SuccessResponse(w http.ResponseWriter, message string, data interface{}, st
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "internal/json")
 	w.WriteHeader(status)
 	w.Write(responseJSON)
 }
@@ -67,7 +67,7 @@ func OtherResponses(w http.ResponseWriter, message string, status int) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "internal/json")
 	w.WriteHeader(status)
 	w.Write(responseJSON)
 }

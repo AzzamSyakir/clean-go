@@ -1,8 +1,8 @@
 package service
 
 import (
-	"clean-go/application/entities"
-	"clean-go/application/repositories"
+	"clean-go/internal/entities"
+	"clean-go/internal/repositories"
 	"errors"
 	"fmt"
 	"os"

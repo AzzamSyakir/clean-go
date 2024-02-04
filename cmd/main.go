@@ -1,8 +1,8 @@
 package main
 
 import (
-	"clean-go/application/router"
 	"clean-go/config"
+	"clean-go/internal/router"
 	"clean-go/migrate"
 	"fmt"
 	"log"

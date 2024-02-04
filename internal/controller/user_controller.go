@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	models "clean-go/application/entities"
-	"clean-go/application/responses"
-	"clean-go/application/service"
+	models "clean-go/internal/entities"
+	"clean-go/internal/responses"
+	"clean-go/internal/service"
 
 	"github.com/gorilla/mux"
 )
@@ -102,7 +102,7 @@ func (uc *UserController) FetchUserController(w http.ResponseWriter, r *http.Req
 	}
 
 	// Mengembalikan data pengguna sebagai JSON
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "internal/json")
 	responses.SuccessResponse(w, "Success", responseData, http.StatusOK)
 }
 
@@ -136,7 +136,7 @@ func (uc *UserController) GetUserController(w http.ResponseWriter, r *http.Reque
 	}
 
 	// Mengembalikan data pengguna sebagai JSON
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "internal/json")
 	responses.SuccessResponse(w, "Success", responseData, http.StatusOK)
 }
 
@@ -173,7 +173,7 @@ func (uc *UserController) UpdateUserController(w http.ResponseWriter, r *http.Re
 	}
 
 	// Return response with only updated data
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "internal/json")
 	responses.SuccessResponse(w, "Success", updatedData, http.StatusOK)
 }
 
