@@ -23,10 +23,10 @@ var (
 
 // NewRouter returns a new router instance.
 func NewRouter() *Router {
-	return &Router{namedRoutes: make(map[string]*Route)}
+	return &Router{namedroute: make(map[string]*Route)}
 }
 
-// Router registers routes to be matched and dispatches a handler.
+// Router registers route to be matched and dispatches a handler.
 //
 // It implements the http.Handler interface, so it can be registered to serve
 // requests:
@@ -53,11 +53,11 @@ type Router struct {
 	// This can be used to render your own 405 Method Not Allowed errors.
 	MethodNotAllowedHandler http.Handler
 
-	// Routes to be matched, in order.
-	routes []*Route
+	// route to be matched, in order.
+	route []*Route
 
-	// Routes by name for URL building.
-	namedRoutes map[string]*Route
+	// route by name for URL building.
+	namedroute map[string]*Route
 
 	// If true, do not clear the request context after handling the request.
 	//
@@ -124,19 +124,19 @@ func copyRouteRegexp(r *routeRegexp) *routeRegexp {
 	return &c
 }
 
-// Match attempts to match the given request against the router's registered routes.
+// Match attempts to match the given request against the router's registered route.
 //
 // If the request matches a route of this router or one of its subrouters the Route,
 // Handler, and Vars fields of the the match argument are filled and this function
 // returns true.
 //
-// If the request does not match any of this router's or its subrouters' routes
+// If the request does not match any of this router's or its subrouters' route
 // then this function returns false. If available, a reason for the match failure
 // will be filled in the match argument's MatchErr field. If the match failure type
 // (eg: not found) has a registered handler, the handler is assigned to the Handler
 // field of the match argument.
 func (r *Router) Match(req *http.Request, match *RouteMatch) bool {
-	for _, route := range r.routes {
+	for _, route := range r.route {
 		if route.Match(req, match) {
 			// Build middleware chain if no error was found
 			if match.MatchErr == nil {
@@ -214,16 +214,16 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 // Get returns a route registered with the given name.
 func (r *Router) Get(name string) *Route {
-	return r.namedRoutes[name]
+	return r.namedroute[name]
 }
 
 // GetRoute returns a route registered with the given name. This method
 // was renamed to Get() and remains here for backwards compatibility.
 func (r *Router) GetRoute(name string) *Route {
-	return r.namedRoutes[name]
+	return r.namedroute[name]
 }
 
-// StrictSlash defines the trailing slash behavior for new routes. The initial
+// StrictSlash defines the trailing slash behavior for new route. The initial
 // value is false.
 //
 // When true, if the route path is "/path/", accessing "/path" will perform a redirect
@@ -234,7 +234,7 @@ func (r *Router) GetRoute(name string) *Route {
 // this route and vice versa.
 //
 // The re-direct is a HTTP 301 (Moved Permanently). Note that when this is set for
-// routes with a non-idempotent method (e.g. POST, PUT), the subsequent re-directed
+// route with a non-idempotent method (e.g. POST, PUT), the subsequent re-directed
 // request will be made as a GET by most clients. Use middleware or client settings
 // to modify this behaviour as needed.
 //
@@ -247,8 +247,8 @@ func (r *Router) StrictSlash(value bool) *Router {
 	return r
 }
 
-// SkipClean defines the path cleaning behaviour for new routes. The initial
-// value is false. Users should be careful about which routes are not cleaned
+// SkipClean defines the path cleaning behaviour for new route. The initial
+// value is false. Users should be careful about which route are not cleaned
 //
 // When true, if the route path is "/path//to", it will remain with the double
 // slash. This is helpful if you have a route like: /fetch/http://xkcd.com/534/
@@ -261,10 +261,10 @@ func (r *Router) SkipClean(value bool) *Router {
 }
 
 // UseEncodedPath tells the router to match the encoded original path
-// to the routes.
+// to the route.
 // For eg. "/path/foo%2Fbar/to" will match the path "/path/{var}/to".
 //
-// If not called, the router will match the unencoded path to the routes.
+// If not called, the router will match the unencoded path to the route.
 // For eg. "/path/foo%2Fbar/to" will match the path "/path/foo/bar/to"
 func (r *Router) UseEncodedPath() *Router {
 	r.useEncodedPath = true
@@ -278,8 +278,8 @@ func (r *Router) UseEncodedPath() *Router {
 // NewRoute registers an empty route.
 func (r *Router) NewRoute() *Route {
 	// initialize a route with a copy of the parent router's configuration
-	route := &Route{routeConf: copyRouteConf(r.routeConf), namedRoutes: r.namedRoutes}
-	r.routes = append(r.routes, route)
+	route := &Route{routeConf: copyRouteConf(r.routeConf), namedroute: r.namedroute}
+	r.route = append(r.route, route)
 	return route
 }
 
@@ -357,7 +357,7 @@ func (r *Router) BuildVarsFunc(f BuildVarsFunc) *Route {
 }
 
 // Walk walks the router and all its sub-routers, calling walkFn for each route
-// in the tree. The routes are walked in the order they were added. Sub-routers
+// in the tree. The route are walked in the order they were added. Sub-routers
 // are explored depth-first.
 func (r *Router) Walk(walkFn WalkFunc) error {
 	return r.walk(walkFn, []*Route{})
@@ -369,11 +369,11 @@ var SkipRouter = errors.New("skip this router")
 
 // WalkFunc is the type of the function called for each route visited by Walk.
 // At every invocation, it is given the current route, and the current router,
-// and a list of ancestor routes that lead to the current route.
+// and a list of ancestor route that lead to the current route.
 type WalkFunc func(route *Route, router *Router, ancestors []*Route) error
 
 func (r *Router) walk(walkFn WalkFunc, ancestors []*Route) error {
-	for _, t := range r.routes {
+	for _, t := range r.route {
 		err := walkFn(t, r, ancestors)
 		if err == SkipRouter {
 			continue

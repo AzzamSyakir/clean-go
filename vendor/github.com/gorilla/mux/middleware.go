@@ -33,8 +33,8 @@ func (r *Router) useInterface(mw middleware) {
 }
 
 // CORSMethodMiddleware automatically sets the Access-Control-Allow-Methods response header
-// on requests for routes that have an OPTIONS method matcher to all the method matchers on
-// the route. Routes that do not explicitly handle OPTIONS requests will not be processed
+// on requests for route that have an OPTIONS method matcher to all the method matchers on
+// the route. route that do not explicitly handle OPTIONS requests will not be processed
 // by the middleware. See examples for usage.
 func CORSMethodMiddleware(r *Router) MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
@@ -58,7 +58,7 @@ func CORSMethodMiddleware(r *Router) MiddlewareFunc {
 func getAllMethodsForRoute(r *Router, req *http.Request) ([]string, error) {
 	var allMethods []string
 
-	for _, route := range r.routes {
+	for _, route := range r.route {
 		var match RouteMatch
 		if route.Match(req, &match) || match.MatchErr == ErrMethodMismatch {
 			methods, err := route.GetMethods()

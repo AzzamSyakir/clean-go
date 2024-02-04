@@ -236,7 +236,7 @@ var sysctlMib = []mibentry{
 	{"net.inet6.ip6.hdrnestlimit", []_C_int{4, 24, 17, 15}},
 	{"net.inet6.ip6.hlim", []_C_int{4, 24, 17, 3}},
 	{"net.inet6.ip6.log_interval", []_C_int{4, 24, 17, 14}},
-	{"net.inet6.ip6.maxdynroutes", []_C_int{4, 24, 17, 48}},
+	{"net.inet6.ip6.maxdynroute", []_C_int{4, 24, 17, 48}},
 	{"net.inet6.ip6.maxfragpackets", []_C_int{4, 24, 17, 9}},
 	{"net.inet6.ip6.maxfrags", []_C_int{4, 24, 17, 41}},
 	{"net.inet6.ip6.mforwarding", []_C_int{4, 24, 17, 42}},

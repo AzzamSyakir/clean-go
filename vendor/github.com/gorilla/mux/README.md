@@ -11,23 +11,23 @@
 Package `gorilla/mux` implements a request router and dispatcher for matching incoming requests to
 their respective handler.
 
-The name mux stands for "HTTP request multiplexer". Like the standard `http.ServeMux`, `mux.Router` matches incoming requests against a list of registered routes and calls a handler for the route that matches the URL or other conditions. The main features are:
+The name mux stands for "HTTP request multiplexer". Like the standard `http.ServeMux`, `mux.Router` matches incoming requests against a list of registered route and calls a handler for the route that matches the URL or other conditions. The main features are:
 
 * It implements the `http.Handler` interface so it is compatible with the standard `http.ServeMux`.
 * Requests can be matched based on URL host, path, path prefix, schemes, header and query values, HTTP methods or using custom matchers.
 * URL hosts, paths and query values can have variables with an optional regular expression.
 * Registered URLs can be built, or "reversed", which helps maintaining references to resources.
-* Routes can be used as subrouters: nested routes are only tested if the parent route matches. This is useful to define groups of routes that share common conditions like a host, a path prefix or other repeated attributes. As a bonus, this optimizes request matching.
+* route can be used as subrouters: nested route are only tested if the parent route matches. This is useful to define groups of route that share common conditions like a host, a path prefix or other repeated attributes. As a bonus, this optimizes request matching.
 
 ---
 
 * [Install](#install)
 * [Examples](#examples)
-* [Matching Routes](#matching-routes)
+* [Matching route](#matching-route)
 * [Static Files](#static-files)
 * [Serving Single Page Applications](#serving-single-page-applications) (e.g. React, Vue, Ember.js, etc.)
 * [Registered URLs](#registered-urls)
-* [Walking Routes](#walking-routes)
+* [Walking route](#walking-route)
 * [Graceful Shutdown](#graceful-shutdown)
 * [Middleware](#middleware)
 * [Handling CORS Requests](#handling-cors-requests)
@@ -58,7 +58,7 @@ func main() {
 }
 ```
 
-Here we register three routes mapping URL paths to handlers. This is equivalent to how `http.HandleFunc()` works: if an incoming request URL matches one of the paths, the corresponding handler is called passing (`http.ResponseWriter`, `*http.Request`) as parameters.
+Here we register three route mapping URL paths to handlers. This is equivalent to how `http.HandleFunc()` works: if an incoming request URL matches one of the paths, the corresponding handler is called passing (`http.ResponseWriter`, `*http.Request`) as parameters.
 
 Paths can have variables. They are defined using the format `{name}` or `{name:pattern}`. If a regular expression pattern is not defined, the matched variable will be anything until the next slash. For example:
 
@@ -81,9 +81,9 @@ func ArticlesCategoryHandler(w http.ResponseWriter, r *http.Request) {
 
 And this is all you need to know about the basic usage. More advanced options are explained below.
 
-### Matching Routes
+### Matching route
 
-Routes can also be restricted to a domain or subdomain. Just define a host pattern to be matched. They can also have variables:
+route can also be restricted to a domain or subdomain. Just define a host pattern to be matched. They can also have variables:
 
 ```go
 r := mux.NewRouter()
@@ -140,7 +140,7 @@ r.HandleFunc("/products", ProductsHandler).
   Schemes("http")
 ```
 
-Routes are tested in the order they were added to the router. If two routes match, the first one wins:
+route are tested in the order they were added to the router. If two route match, the first one wins:
 
 ```go
 r := mux.NewRouter()
@@ -148,7 +148,7 @@ r.HandleFunc("/specific", specificHandler)
 r.PathPrefix("/").Handler(catchAllHandler)
 ```
 
-Setting the same matching conditions again and again can be boring, so we have a way to group several routes that share the same requirements. We call it "subrouting".
+Setting the same matching conditions again and again can be boring, so we have a way to group several route that share the same requirements. We call it "subrouting".
 
 For example, let's say we have several URLs that should only match when the host is `www.example.com`. Create a route for that host and get a "subrouter" from it:
 
@@ -157,7 +157,7 @@ r := mux.NewRouter()
 s := r.Host("www.example.com").Subrouter()
 ```
 
-Then register routes in the subrouter:
+Then register route in the subrouter:
 
 ```go
 s.HandleFunc("/products/", ProductsHandler)
@@ -169,7 +169,7 @@ The three URL paths we registered above will only be tested if the domain is `ww
 
 Subrouters can be used to create domain or path "namespaces": you define subrouters in a central place and then parts of the app can register its paths relatively to a given subrouter.
 
-There's one more thing about subroutes. When a subrouter has a path prefix, the inner routes use it as base for their paths:
+There's one more thing about subroute. When a subrouter has a path prefix, the inner route use it as base for their paths:
 
 ```go
 r := mux.NewRouter()
@@ -296,7 +296,7 @@ func main() {
 
 Now let's see how to build registered URLs.
 
-Routes can be named. All routes that define a name can have their URLs built, or "reversed". We define a name calling `Name()` on a route. For example:
+route can be named. All route that define a name can have their URLs built, or "reversed". We define a name calling `Name()` on a route. For example:
 
 ```go
 r := mux.NewRouter()
@@ -333,7 +333,7 @@ url, err := r.Get("article").URL("subdomain", "news",
                                  "filter", "gorilla")
 ```
 
-All variables defined in the route are required, and their values must conform to the corresponding patterns. These requirements guarantee that a generated URL will always match a registered route -- the only exception is for explicitly defined "build-only" routes which never match.
+All variables defined in the route are required, and their values must conform to the corresponding patterns. These requirements guarantee that a generated URL will always match a registered route -- the only exception is for explicitly defined "build-only" route which never match.
 
 Regex support also exists for matching Headers within a route. For example, we could do:
 
@@ -381,10 +381,10 @@ r.Host("{domain}").
 fmt.Println(r.Get("article").GetVarNames())
 
 ```
-### Walking Routes
+### Walking route
 
-The `Walk` function on `mux.Router` can be used to visit all of the routes that are registered on a router. For example,
-the following prints all of the registered routes:
+The `Walk` function on `mux.Router` can be used to visit all of the route that are registered on a router. For example,
+the following prints all of the registered route:
 
 ```go
 package main
@@ -466,7 +466,7 @@ func main() {
     flag.Parse()
 
     r := mux.NewRouter()
-    // Add your routes as needed
+    // Add your route as needed
 
     srv := &http.Server{
         Addr:         "0.0.0.0:8080",
@@ -724,7 +724,7 @@ func TestHealthCheckHandler(t *testing.T) {
 }
 ```
 
-In the case that our routes have [variables](#examples), we can pass those in the request. We could write
+In the case that our route have [variables](#examples), we can pass those in the request. We could write
 [table-driven tests](https://dave.cheney.net/2013/06/09/writing-table-driven-tests-in-go) to test multiple
 possible route variables as needed.
 
@@ -799,7 +799,7 @@ func YourHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     r := mux.NewRouter()
-    // Routes consist of a path and a handler function.
+    // route consist of a path and a handler function.
     r.HandleFunc("/", YourHandler)
 
     // Bind to a port and pass our router in

@@ -24,8 +24,8 @@ type Route struct {
 	// Error resulted from building a route.
 	err error
 
-	// "global" reference to all named routes
-	namedRoutes map[string]*Route
+	// "global" reference to all named route
+	namedroute map[string]*Route
 
 	// config possibly passed in from `Router`
 	routeConf
@@ -67,7 +67,7 @@ func (r *Route) Match(req *http.Request, match *RouteMatch) bool {
 			matchErr = nil // nolint:ineffassign
 			return false
 		} else {
-			// Multiple routes may share the same path but use different HTTP methods. For instance:
+			// Multiple route may share the same path but use different HTTP methods. For instance:
 			// Route 1: POST "/users/{id}".
 			// Route 2: GET "/users/{id}", parameters: "id": "[0-9]+".
 			//
@@ -153,7 +153,7 @@ func (r *Route) Name(name string) *Route {
 	}
 	if r.err == nil {
 		r.name = name
-		r.namedRoutes[name] = r
+		r.namedroute[name] = r
 	}
 	return r
 }
@@ -374,7 +374,7 @@ func (r *Route) Path(tpl string) *Route {
 // Note that it does not treat slashes specially ("/foobar/" will be matched by
 // the prefix "/foo") so you may want to use a trailing slash here.
 //
-// Also note that the setting of Router.StrictSlash() has no effect on routes
+// Also note that the setting of Router.StrictSlash() has no effect on route
 // with a PathPrefix matcher.
 func (r *Route) PathPrefix(tpl string) *Route {
 	r.err = r.addRegexpMatcher(tpl, regexpTypePrefix)
@@ -481,7 +481,7 @@ func (r *Route) BuildVarsFunc(f BuildVarsFunc) *Route {
 
 // Subrouter creates a subrouter for the route.
 //
-// It will test the inner routes only if the parent route matched. For example:
+// It will test the inner route only if the parent route matched. For example:
 //
 //	r := mux.NewRouter().NewRoute()
 //	s := r.Host("www.example.com").Subrouter()
@@ -489,11 +489,11 @@ func (r *Route) BuildVarsFunc(f BuildVarsFunc) *Route {
 //	s.HandleFunc("/products/{key}", ProductHandler)
 //	s.HandleFunc("/articles/{category}/{id:[0-9]+}"), ArticleHandler)
 //
-// Here, the routes registered in the subrouter won't be tested if the host
+// Here, the route registered in the subrouter won't be tested if the host
 // doesn't match.
 func (r *Route) Subrouter() *Router {
 	// initialize a subrouter with a copy of the parent route's configuration
-	router := &Router{routeConf: copyRouteConf(r.routeConf), namedRoutes: r.namedRoutes}
+	router := &Router{routeConf: copyRouteConf(r.routeConf), namedroute: r.namedroute}
 	r.addMatcher(router)
 	return router
 }

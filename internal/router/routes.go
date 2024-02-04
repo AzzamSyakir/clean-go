@@ -27,20 +27,20 @@ func Router(db *sql.DB) *mux.Router {
 	// Create a new router
 	router := mux.NewRouter()
 
-	// Protected routes
-	protectedRoutes := router.PathPrefix("/").Subrouter()
-	protectedRoutes.Use(middleware.AuthMiddleware)
+	// Protected route
+	protectedroute := router.PathPrefix("/").Subrouter()
+	protectedroute.Use(middleware.AuthMiddleware)
 
-	// Authentication routes
+	// Authentication route
 	router.HandleFunc("/users", userController.CreateUserController).Methods("POST")
 	router.HandleFunc("/users/login", userController.LoginUser).Methods("POST")
 	router.HandleFunc("/users/logout", userController.LogoutUser).Methods("POST")
 
-	// User routes
-	protectedRoutes.HandleFunc("/users", userController.FetchUserController).Methods("GET")
-	protectedRoutes.HandleFunc("/users/{id}", userController.GetUserController).Methods("GET")
-	protectedRoutes.HandleFunc("/users/{id}", userController.UpdateUserController).Methods("PUT")
-	protectedRoutes.HandleFunc("/users/{id}", userController.DeleteUser).Methods("DELETE")
+	// User route
+	protectedroute.HandleFunc("/users", userController.FetchUserController).Methods("GET")
+	protectedroute.HandleFunc("/users/{id}", userController.GetUserController).Methods("GET")
+	protectedroute.HandleFunc("/users/{id}", userController.UpdateUserController).Methods("PUT")
+	protectedroute.HandleFunc("/users/{id}", userController.DeleteUser).Methods("DELETE")
 
 	return router
 }
