@@ -2,7 +2,7 @@ package test
 
 import (
 	"bytes"
-	"clean-go/config"
+	"clean-go/internal/config"
 	"clean-go/internal/router"
 	"clean-go/migrate"
 	"database/sql"
