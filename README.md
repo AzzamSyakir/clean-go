@@ -92,33 +92,41 @@ To run tests, run the following command
 The project structure is designed for clarity and maintainability, following a clean architecture approach:
 
 ```plaintext
-/
-├── go.mod
-├── makefile
-├── .env
+clean-go/
 ├── cmd/
 │   └── main.go
 ├── api/
-│   ├── controller/
-│   │   └── user_handlers.go (handles HTTP requests)
-│   ├── service/
-│   │   └── user_service.go (handles business logic)
-│   ├── repositories/
-│   │   └── user_repository.go (manages database interactions)
+│   └── api-spec.json (Postman API collection)
+├── internal/
+│   ├── delivery/
+│   │   ├── http/
+│   │   │   ├── middleware/
+│   │   │   │   └── middleware.go (code for middleware)
+│   │   │   ├── route/
+│   │   │   │   └── route.go (initialize routes for server and run server)
+│   │   │   └── user_controller.go (layer httphandling HTTP requests)
+│   │   └── messaging/
 │   ├── entity/
-│   │   └── user.go (declares the user entity)
-│   ├── middleware/
-│   │   └── middleware.go (houses middleware code)
-│   └── routes/
-│       └── routes.go (initializes routes and runs the server)
+│   │   └── user_entity.go (declaration of user entity struct)
+│   ├── usecase/
+│   │   └── user_usecase.go (layer usecase handling business logic)
+│   ├── repository/
+│   │   └── user_repository.go (layer repositories handling HTTP interactions to the database)
+│   └── config/
+│       └── db.go (initialize database connection)
+|   └── gateway/messaging/
+│       └── db.go (initialize database connection)
 ├── migration/
-│   ├── User.go (initializes user table migration)
-│   ├── migrate.go (sets up migration file)
-│   └── token.go (initializes token table migration)
-└── config/
-    └── db.go (initializes database connection)
+│   ├── User.go (initialize user table migration)
+│   ├── migrate.go (setup migrate file)
+│   └── token.go (initialize token table migration)
+├── test/
+│   └── user_test.go (unit testing here)
+├── go.mod
+├── makefile
+├── .env
+└── vendor/
 ```
-
 
 
 ## explanation of project structure:
