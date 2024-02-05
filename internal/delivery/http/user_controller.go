@@ -9,7 +9,7 @@ import (
 	"time"
 
 	models "clean-go/internal/entity"
-	"clean-go/internal/responses"
+	"clean-go/internal/gateway/responses"
 
 	"github.com/gorilla/mux"
 )

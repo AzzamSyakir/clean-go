@@ -11,7 +11,6 @@ clean-go/
 │   │   │   ├── route/
 │   │   │   │   └── route.go (initialize routes for server and run server)
 │   │   │   └── user_controller.go (layer httphandling HTTP requests)
-│   │   └── messaging/
 │   ├── entity/
 │   │   └── user_entity.go (declaration of user entity struct)
 │   ├── usecase/
@@ -20,7 +19,7 @@ clean-go/
 │   │   └── user_repository.go (layer repositories handling HTTP interactions to the database)
 │   └── config/
 │       └── db.go (initialize database connection)
-|   └── gateway/messaging/
+|   └── gateway/
 │       └── db.go (initialize database connection)
 ├── migration/
 │   ├── User.go (initialize user table migration)
