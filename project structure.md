@@ -10,7 +10,7 @@ clean-go/
 │   │   │   │   └── middleware.go (code for middleware)
 │   │   │   ├── route/
 │   │   │   │   └── route.go (initialize routes for server and run server)
-│   │   │   └── user_controller.go (layer controller handling HTTP requests)
+│   │   │   └── user_controller.go (layer httphandling HTTP requests)
 │   │   └── messaging/
 │   ├── entity/
 │   │   └── user_entity.go (declaration of user entity struct)

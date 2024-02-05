@@ -22,7 +22,7 @@ func Router(db *sql.DB) *mux.Router {
 	userService := service.NewUserService(*userRepository)
 
 	// Initialize controllers
-	userController := controller.NewUserController(*userService)
+	userhttp := controller.NewUserController(*userService)
 
 	// Create a new router
 	router := mux.NewRouter()

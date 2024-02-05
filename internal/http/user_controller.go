@@ -1,4 +1,4 @@
-package controller
+package http
 
 import (
 	"encoding/json"
@@ -9,17 +9,16 @@ import (
 
 	models "clean-go/internal/entity"
 	"clean-go/internal/responses"
-	"clean-go/internal/service"
 
 	"github.com/gorilla/mux"
 )
 
 type UserController struct {
-	userService service.UserService
+	UseCase *usecase.UserUseCase
 }
 
-func NewUserController(us service.UserService) *UserController {
-	return &UserController{userService: us}
+func NewUserController(useCase *usecase.UserUseCase) *Userhttp {
+	return &UserController{UseCase: useCase}
 }
 
 func (uc *UserController) CreateUserController(w http.ResponseWriter, r *http.Request) {
