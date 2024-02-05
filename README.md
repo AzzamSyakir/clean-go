@@ -5,20 +5,19 @@ Welcome to the **clean-go Project !** This project provides a structured and com
 
 ## Table of Contents
 
--[Architecture](#Architecture)
+- [Architecture](#architecture)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Running Tests](#running-tests)
 - [Project Structure](#project-structure)
   - [Explanation of Project Structure](#explanation-of-project-structure)
-- [Dependencies](#dependencies)
 - [Contributing](#contributing)
-
-## Clean Architecture
+  
+# Clean Architecture
 ![Clean Architecture](https://github.com/AzzamSyakir/clean-go/blob/main/architecture.png)
 
-### Workflow:
+## Workflow:
 1. External system initiates a request (HTTP, gRPC, Messaging, etc).
 2. The Delivery layer creates various Models from request data.
 3. The Delivery layer calls the Use Case, executing it using Model data.
@@ -35,7 +34,7 @@ This architecture promotes separation of concerns and enhances maintainability, 
 
 
 
-## Introduction
+# Introduction
 
 This Golang project template is designed to showcase best practices for testing in Go applications. It focuses on creating a simple API for user management, including registration, login, and basic CRUD operations. The goal is to provide a clean and well-organized foundation for building scalable and maintainable applications.
 
@@ -128,32 +127,74 @@ clean-go/
 └── vendor/
 ```
 
+# Project Structure Explanation
 
-## explanation of project structure:
+## Overview
 
-- **httpLayer:** Handles HTTP requests and serves as the entry point for external communication.
+The project follows a clean architecture approach, emphasizing separation of concerns and maintainability. It is organized into distinct layers to facilitate scalability and modularity.
 
-- **usecaseLayer:** Contains business logic and orchestrates data flow between the httpand repository layers.
+### 1. **cmd/**
 
-- **Repository Layer:** Manages interactions with the database, providing an abstraction layer to the service.
+- **main.go:** Entry point of the application, initiating the core functionalities.
 
-- **Entity Layer:** Declares data structures representing entity in the application, such as database tables.
+### 2. **api/**
 
-- **Middleware Layer:** Houses middleware code for common functionalities.
+- **api-spec.json:** Postman API collection providing documentation and examples for API endpoints.
 
-- **Routes Layer:** Initializes routes for the server, connecting controllers to specific HTTP endpoints.
+### 3. **internal/**
 
-- **Migration Layer:** Manages database migration files for initializing tables.
+The `internal` directory houses the core components of the application.
 
-- **Config Layer:** Initializes and manages the database connection.
+#### a. **delivery/**
 
-This architecture enhances maintainability by separating concerns and facilitating easier testing and scalability. Each layer has a distinct responsibility, contributing to a well-organized and comprehensible codebase.
-# dependencies
-The project uses Go modules for dependency management. To install dependencies, run:
+- **http/:**
+  - **middleware/:** Contains middleware.go, housing code for handling middleware operations.
+  - **route/:** Manages route.go, which initializes routes for the server and runs the server.
+  - **user_controller.go:** Responsible for handling HTTP requests related to users.
 
-```bash
-go mod download
-```
+- **messaging/:** Manages messaging components related to delivery.
+
+#### b. **entity/**
+
+- **user_entity.go:** Declares the structure for the user entity, capturing essential attributes.
+
+#### c. **usecase/**
+
+- **user_usecase.go:** Manages the use case layer, handling the business logic related to users.
+
+#### d. **repository/**
+
+- **user_repository.go:** Handles interactions with the database and manages HTTP interactions related to users.
+
+#### e. **config/**
+
+- **db.go:** Initializes the database connection.
+
+#### f. **gateway/**
+
+- **messaging/:** Manages messaging components related to the gateway.
+
+### 4. **migration/**
+
+- **User.go:** Initializes user table migration.
+- **migrate.go:** Sets up migration file.
+- **token.go:** Initializes token table migration.
+
+### 5. **test/**
+
+- **user_test.go:** Unit tests for user-related functionalities.
+
+### 6. **go.mod, makefile, .env**
+
+- **go.mod:** Specifies the Go modules and their dependencies.
+- **makefile:** Automates common tasks and build processes.
+- **.env:** Configuration file for environment variables.
+
+### 7. **vendor/**
+
+- Houses external dependencies.
+
+This structure promotes a clear separation of concerns, making the codebase modular and easily maintainable. Each layer focuses on specific responsibilities, contributing to the overall cleanliness and scalability of the architecture.
 
 # Contributing
 
