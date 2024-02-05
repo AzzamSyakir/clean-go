@@ -5,15 +5,14 @@ Welcome to the **clean-go Project !** This project provides a structured and com
 
 ## Table of Contents
 
-- [Architecture](#architecture)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Running Tests](#running-tests)
 - [Project Structure](#project-structure)
-  - [Explanation of Project Structure](#explanation-of-project-structure)
+  - [Explanation of Project Structure](#Project-Structure-Explanation)
 - [Contributing](#contributing)
-  
+
 # Clean Architecture
 ![Clean Architecture](https://github.com/AzzamSyakir/clean-go/blob/main/architecture.png)
 
