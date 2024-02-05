@@ -251,7 +251,7 @@ const (
 	SYS_INOTIFY_INIT            = 5243
 	SYS_INOTIFY_ADD_WATCH       = 5244
 	SYS_INOTIFY_RM_WATCH        = 5245
-	SYS_migration_PAGES           = 5246
+	SYS_MIGRATE_PAGES           = 5246
 	SYS_OPENAT                  = 5247
 	SYS_MKDIRAT                 = 5248
 	SYS_MKNODAT                 = 5249

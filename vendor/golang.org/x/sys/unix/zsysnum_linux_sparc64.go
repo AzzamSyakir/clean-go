@@ -288,7 +288,7 @@ const (
 	SYS_UNSHARE                 = 299
 	SYS_SET_ROBUST_LIST         = 300
 	SYS_GET_ROBUST_LIST         = 301
-	SYS_migration_PAGES           = 302
+	SYS_MIGRATE_PAGES           = 302
 	SYS_MBIND                   = 303
 	SYS_GET_MEMPOLICY           = 304
 	SYS_SET_MEMPOLICY           = 305

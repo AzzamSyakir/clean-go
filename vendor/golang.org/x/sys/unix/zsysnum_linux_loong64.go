@@ -239,7 +239,7 @@ const (
 	SYS_MBIND                   = 235
 	SYS_GET_MEMPOLICY           = 236
 	SYS_SET_MEMPOLICY           = 237
-	SYS_migration_PAGES           = 238
+	SYS_MIGRATE_PAGES           = 238
 	SYS_MOVE_PAGES              = 239
 	SYS_RT_TGSIGQUEUEINFO       = 240
 	SYS_PERF_EVENT_OPEN         = 241

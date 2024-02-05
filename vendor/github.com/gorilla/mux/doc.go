@@ -7,7 +7,7 @@ Package mux implements a request router and dispatcher.
 
 The name mux stands for "HTTP request multiplexer". Like the standard
 http.ServeMux, mux.Router matches incoming requests against a list of
-registered route and calls a handler for the route that matches the URL
+registered routes and calls a handler for the route that matches the URL
 or other conditions. The main features are:
 
   - Requests can be matched based on URL host, path, path prefix, schemes,
@@ -16,8 +16,8 @@ or other conditions. The main features are:
     regular expression.
   - Registered URLs can be built, or "reversed", which helps maintaining
     references to resources.
-  - route can be used as subrouters: nested route are only tested if the
-    parent route matches. This is useful to define groups of route that
+  - Routes can be used as subrouters: nested routes are only tested if the
+    parent route matches. This is useful to define groups of routes that
     share common conditions like a host, a path prefix or other repeated
     attributes. As a bonus, this optimizes request matching.
   - It implements the http.Handler interface so it is compatible with the
@@ -33,7 +33,7 @@ Let's start registering a couple of URL paths and handlers:
 		http.Handle("/", r)
 	}
 
-Here we register three route mapping URL paths to handlers. This is
+Here we register three routes mapping URL paths to handlers. This is
 equivalent to how http.HandleFunc() works: if an incoming request URL matches
 one of the paths, the corresponding handler is called passing
 (http.ResponseWriter, *http.Request) as parameters.
@@ -65,7 +65,7 @@ when capturing groups were present.
 And this is all you need to know about the basic usage. More advanced options
 are explained below.
 
-route can also be restricted to a domain or subdomain. Just define a host
+Routes can also be restricted to a domain or subdomain. Just define a host
 pattern to be matched. They can also have variables:
 
 	r := mux.NewRouter()
@@ -108,7 +108,7 @@ There are several other matchers that can be added. To match path prefixes:
 	  Schemes("http")
 
 Setting the same matching conditions again and again can be boring, so we have
-a way to group several route that share the same requirements.
+a way to group several routes that share the same requirements.
 We call it "subrouting".
 
 For example, let's say we have several URLs that should only match when the
@@ -118,7 +118,7 @@ from it:
 	r := mux.NewRouter()
 	s := r.Host("www.example.com").Subrouter()
 
-Then register route in the subrouter:
+Then register routes in the subrouter:
 
 	s.HandleFunc("/products/", ProductsHandler)
 	s.HandleFunc("/products/{key}", ProductHandler)
@@ -133,8 +133,8 @@ Subrouters can be used to create domain or path "namespaces": you define
 subrouters in a central place and then parts of the app can register its
 paths relatively to a given subrouter.
 
-There's one more thing about subroute. When a subrouter has a path prefix,
-the inner route use it as base for their paths:
+There's one more thing about subroutes. When a subrouter has a path prefix,
+the inner routes use it as base for their paths:
 
 	r := mux.NewRouter()
 	s := r.PathPrefix("/products").Subrouter()
@@ -172,7 +172,7 @@ request that matches "/static/*". This makes it easy to serve static files with 
 
 Now let's see how to build registered URLs.
 
-route can be named. All route that define a name can have their URLs built,
+Routes can be named. All routes that define a name can have their URLs built,
 or "reversed". We define a name calling Name() on a route. For example:
 
 	r := mux.NewRouter()
@@ -206,7 +206,7 @@ This also works for host and query value variables:
 All variables defined in the route are required, and their values must
 conform to the corresponding patterns. These requirements guarantee that a
 generated URL will always match a registered route -- the only exception is
-for explicitly defined "build-only" route which never match.
+for explicitly defined "build-only" routes which never match.
 
 Regex support also exists for matching Headers within a route. For example, we could do:
 

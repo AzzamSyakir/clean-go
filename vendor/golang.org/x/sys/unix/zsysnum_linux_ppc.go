@@ -262,7 +262,7 @@ const (
 	SYS_FADVISE64_64                 = 254
 	SYS_RTAS                         = 255
 	SYS_SYS_DEBUG_SETCONTEXT         = 256
-	SYS_migration_PAGES                = 258
+	SYS_MIGRATE_PAGES                = 258
 	SYS_MBIND                        = 259
 	SYS_GET_MEMPOLICY                = 260
 	SYS_SET_MEMPOLICY                = 261

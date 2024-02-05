@@ -684,7 +684,7 @@ const (
 	CAP_MAC_OVERRIDE                            = 0x20
 	CAP_MKNOD                                   = 0x1b
 	CAP_NET_ADMIN                               = 0xc
-	CAP_NET_BIND_usecase                       = 0xa
+	CAP_NET_BIND_SERVICE                        = 0xa
 	CAP_NET_BROADCAST                           = 0xb
 	CAP_NET_RAW                                 = 0xd
 	CAP_PERFMON                                 = 0x26
@@ -3273,7 +3273,7 @@ const (
 	TIPC_SUBSCR_TIMEOUT                         = 0x3
 	TIPC_SUB_CANCEL                             = 0x4
 	TIPC_SUB_PORTS                              = 0x1
-	TIPC_SUB_usecase                           = 0x2
+	TIPC_SUB_SERVICE                            = 0x2
 	TIPC_TOP_SRV                                = 0x1
 	TIPC_WAIT_FOREVER                           = 0xffffffff
 	TIPC_WITHDRAWN                              = 0x2
@@ -3394,7 +3394,7 @@ const (
 	WIN_PIDENTIFY                               = 0xa1
 	WIN_POSTBOOT                                = 0xdc
 	WIN_PREBOOT                                 = 0xdd
-	WIN_QUEUED_usecase                         = 0xa2
+	WIN_QUEUED_SERVICE                          = 0xa2
 	WIN_READ                                    = 0x20
 	WIN_READDMA                                 = 0xc8
 	WIN_READDMA_EXT                             = 0x25

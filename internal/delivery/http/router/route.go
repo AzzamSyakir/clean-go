@@ -1,11 +1,11 @@
-package route
+package router
 
 import (
 	"clean-go/internal/config"
-	"clean-go/internal/delivery/http"
-	"clean-go/internal/middleware"
-	"clean-go/internal/repositories"
-	"clean-go/internal/service"
+	userHttp "clean-go/internal/delivery/http"
+	"clean-go/internal/delivery/http/middleware"
+	"clean-go/internal/repository"
+	"clean-go/internal/usecase"
 	"database/sql"
 	"fmt"
 	"log"
@@ -16,13 +16,13 @@ import (
 
 func Router(db *sql.DB) *mux.Router {
 	// Initialize repositories
-	userRepository := repositories.NewUserRepository(db)
+	userRepository := repository.NewUserRepository(db)
 
 	// Initialize services
-	userusecase := service.NewUserService(*userRepository)
+	userusecase := usecase.NewUserUseCase(*userRepository)
 
 	// Initialize http
-	userhttp := controller.NewUserController(*&userusecase)
+	userhttp := userHttp.NewUserController(userusecase)
 
 	// Create a new router
 	router := mux.NewRouter()
@@ -32,15 +32,15 @@ func Router(db *sql.DB) *mux.Router {
 	protectedroute.Use(middleware.AuthMiddleware)
 
 	// Authentication route
-	router.HandleFunc("/users", userController.RegisterController).Methods("POST")
-	router.HandleFunc("/users/login", userController.LoginUser).Methods("POST")
-	router.HandleFunc("/users/logout", userController.LogoutUser).Methods("POST")
+	router.HandleFunc("/users", userhttp.Register).Methods("POST")
+	router.HandleFunc("/users/login", userhttp.Login).Methods("POST")
+	router.HandleFunc("/users/logout", userhttp.Logout).Methods("POST")
 
 	// User route
-	protectedroute.HandleFunc("/users", userController.FetchUserController).Methods("GET")
-	protectedroute.HandleFunc("/users/{id}", userController.GetUserController).Methods("GET")
-	protectedroute.HandleFunc("/users/{id}", userController.UpdateUserController).Methods("PUT")
-	protectedroute.HandleFunc("/users/{id}", userController.DeleteUser).Methods("DELETE")
+	protectedroute.HandleFunc("/users", userhttp.Fetch).Methods("GET")
+	protectedroute.HandleFunc("/users/{id}", userhttp.Get).Methods("GET")
+	protectedroute.HandleFunc("/users/{id}", userhttp.Update).Methods("PUT")
+	protectedroute.HandleFunc("/users/{id}", userhttp.Delete).Methods("DELETE")
 
 	return router
 }

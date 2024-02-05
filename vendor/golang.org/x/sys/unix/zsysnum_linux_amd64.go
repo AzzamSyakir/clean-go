@@ -262,7 +262,7 @@ const (
 	SYS_INOTIFY_INIT            = 253
 	SYS_INOTIFY_ADD_WATCH       = 254
 	SYS_INOTIFY_RM_WATCH        = 255
-	SYS_migration_PAGES           = 256
+	SYS_MIGRATE_PAGES           = 256
 	SYS_OPENAT                  = 257
 	SYS_MKDIRAT                 = 258
 	SYS_MKNODAT                 = 259

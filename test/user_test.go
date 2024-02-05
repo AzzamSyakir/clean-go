@@ -3,7 +3,7 @@ package test
 import (
 	"bytes"
 	"clean-go/internal/config"
-	"clean-go/internal/router"
+	"clean-go/internal/delivery/http/router"
 	"clean-go/migration"
 	"database/sql"
 	"encoding/json"
