@@ -14,19 +14,24 @@ Welcome to the **clean-go Project !** This project provides a structured and com
   - [Explanation of Project Structure](#explanation-of-project-structure)
 - [Dependencies](#dependencies)
 - [Contributing](#contributing)
-## Architecture
+
+## Clean Architecture
 ![Clean Architecture](https://github.com/AzzamSyakir/clean-go/blob/main/architecture.png)
-External system perform request (HTTP, gRPC, Messaging, etc)
-The Delivery creates various Model from request data
-The Delivery calls Use Case, and execute it using Model data
-The Use Case create Entity data for the business logic
-The Use Case calls Repository, and execute it using Entity data
-The Repository use Entity data to perform database operation
-The Repository perform database operation to the database
-The Use Case create various Model for Gateway or from Entity data
-The Use Case calls Gateway, and execute it using Model data
-The Gateway using Model data to construct request to external system
-The Gateway perform request to external system (HTTP, gRPC, Messaging, etc)
+
+### Workflow:
+1. External system initiates a request (HTTP, gRPC, Messaging, etc).
+2. The Delivery layer creates various Models from request data.
+3. The Delivery layer calls the Use Case, executing it using Model data.
+4. The Use Case creates Entity data for business logic.
+5. The Use Case calls the Repository, executing it using Entity data.
+6. The Repository uses Entity data to perform database operations.
+7. The Repository performs database operations on the database.
+8. The Use Case creates various Models for the Gateway or from Entity data.
+9. The Use Case calls the Gateway, executing it using Model data.
+10. The Gateway uses Model data to construct requests to an external system.
+11. The Gateway performs requests to external systems (HTTP, gRPC, Messaging, etc).
+
+This architecture promotes separation of concerns and enhances maintainability, scalability, and testability. Each layer has a specific responsibility, contributing to a well-organized and comprehensible codebase.
 
 
 
