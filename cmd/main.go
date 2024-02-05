@@ -1,9 +1,9 @@
 package main
 
 import (
-	"clean-go/config"
+	"clean-go/internal/config"
 	"clean-go/internal/router"
-	"clean-go/migrate"
+	"clean-go/migration"
 	"fmt"
 	"log"
 	"os"
@@ -19,14 +19,14 @@ func main() {
 
 	// Cek argumen command line
 	if len(os.Args) > 1 {
-		// Jika argumen adalah "migrate", jalankan migrasi
-		if os.Args[1] == "migrate" {
+		// Jika argumen adalah "migration", jalankan migrasi
+		if os.Args[1] == "migration" {
 			// Initialize database
 			db, err := config.InitDB()
 			if err != nil {
 				log.Fatal("Error connecting to database:", err)
 			}
-			err = migrate.MigrateDB(db)
+			err = migration.MigrationDb(db)
 			if err != nil {
 				log.Fatal("Error running migrations:", err)
 			}
@@ -35,7 +35,7 @@ func main() {
 		}
 	}
 
-	// Jika tidak ada argumen, jalankan server
+	// Jika tidak ada argumen, jalankan servm per
 	fmt.Println("Server started on port 9000")
 	router.RunServer()
 }

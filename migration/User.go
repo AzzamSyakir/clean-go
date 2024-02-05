@@ -1,12 +1,12 @@
-package migrate
+package migration
 
 import (
 	"database/sql"
 	"log"
 )
 
-// Migrate digunakan untuk menjalankan migrasi tabel.
-func UserMigrate(db *sql.DB) error {
+// migration digunakan untuk menjalankan migrasi tabel.
+func Usermigration(db *sql.DB) error {
 	// SQL statement untuk memeriksa apakah tabel users sudah ada
 	checkTableSQL := `
         SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'users'

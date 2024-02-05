@@ -1178,7 +1178,7 @@ const (
 	SIGLOST     = syscall.Signal(0x6)
 	SIGMAX      = syscall.Signal(0xff)
 	SIGMAX32    = syscall.Signal(0x3f)
-	SIGMIGRATE  = syscall.Signal(0x23)
+	SIGmigration  = syscall.Signal(0x23)
 	SIGMSG      = syscall.Signal(0x1b)
 	SIGPIPE     = syscall.Signal(0xd)
 	SIGPOLL     = syscall.Signal(0x17)
@@ -1368,7 +1368,7 @@ var signalList = [...]struct {
 	{32, "SIGPROF", "profiling timer expired"},
 	{33, "SIGDANGER", "paging space low"},
 	{34, "SIGVTALRM", "virtual timer expired"},
-	{35, "SIGMIGRATE", "signal 35"},
+	{35, "SIGmigration", "signal 35"},
 	{36, "SIGPRE", "signal 36"},
 	{37, "SIGVIRT", "signal 37"},
 	{38, "SIGTALRM", "signal 38"},

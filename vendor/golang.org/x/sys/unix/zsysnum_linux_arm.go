@@ -362,7 +362,7 @@ const (
 	SYS_STATX                        = 397
 	SYS_RSEQ                         = 398
 	SYS_IO_PGETEVENTS                = 399
-	SYS_MIGRATE_PAGES                = 400
+	SYS_migration_PAGES                = 400
 	SYS_KEXEC_FILE_LOAD              = 401
 	SYS_CLOCK_GETTIME64              = 403
 	SYS_CLOCK_SETTIME64              = 404

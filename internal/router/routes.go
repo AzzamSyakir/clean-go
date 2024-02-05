@@ -1,7 +1,7 @@
 package router
 
 import (
-	"clean-go/config"
+	"clean-go/internal/config"
 	"clean-go/internal/controller"
 	"clean-go/internal/middleware"
 	"clean-go/internal/repositories"

@@ -1,12 +1,12 @@
-package migrate
+package migration
 
 import (
 	"database/sql"
 	"log"
 )
 
-// TokenMigrate digunakan untuk menjalankan migrasi tabel token.
-func TokenMigrate(db *sql.DB) error {
+// Tokenmigration digunakan untuk menjalankan migrasi tabel token.
+func Tokenmigration(db *sql.DB) error {
 	// SQL statement untuk memeriksa apakah tabel token sudah ada
 	checkTableSQL := `
         SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'tokens'

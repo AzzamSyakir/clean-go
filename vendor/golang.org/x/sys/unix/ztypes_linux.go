@@ -2711,7 +2711,7 @@ const (
 	BPF_XDP                                    = 0x25
 	BPF_SK_SKB_VERDICT                         = 0x26
 	BPF_SK_REUSEPORT_SELECT                    = 0x27
-	BPF_SK_REUSEPORT_SELECT_OR_MIGRATE         = 0x28
+	BPF_SK_REUSEPORT_SELECT_OR_migration         = 0x28
 	BPF_PERF_EVENT                             = 0x29
 	BPF_TRACE_KPROBE_MULTI                     = 0x2a
 	BPF_LSM_CGROUP                             = 0x2b
