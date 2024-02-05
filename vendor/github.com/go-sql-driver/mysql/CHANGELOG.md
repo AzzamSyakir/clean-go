@@ -36,7 +36,7 @@ Bugfixes:
 
 Changes:
 
-  - migration the CI service from travis-ci to GitHub Actions (#1176, #1183, #1190)
+  - migration the CI usecasefrom travis-ci to GitHub Actions (#1176, #1183, #1190)
   - `NullTime` is deprecated (#960, #1144)
   - Reduce allocations when building SET command (#1111)
   - Performance improvement for time formatting (#1118)

@@ -19,7 +19,7 @@ func Router(db *sql.DB) *mux.Router {
 	userRepository := repositories.NewUserRepository(db)
 
 	// Initialize services
-	userService := service.NewUserService(*userRepository)
+	userusecase := service.NewUserService(*userRepository)
 
 	// Initialize controllers
 	userhttp := controller.NewUserController(*userService)
@@ -32,7 +32,7 @@ func Router(db *sql.DB) *mux.Router {
 	protectedroute.Use(middleware.AuthMiddleware)
 
 	// Authentication route
-	router.HandleFunc("/users", userController.CreateUserController).Methods("POST")
+	router.HandleFunc("/users", userController.RegisterController).Methods("POST")
 	router.HandleFunc("/users/login", userController.LoginUser).Methods("POST")
 	router.HandleFunc("/users/logout", userController.LogoutUser).Methods("POST")
 

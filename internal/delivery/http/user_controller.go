@@ -1,6 +1,7 @@
 package http
 
 import (
+	"clean-go/internal/usecase"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -17,11 +18,11 @@ type UserController struct {
 	UseCase *usecase.UserUseCase
 }
 
-func NewUserController(useCase *usecase.UserUseCase) *Userhttp {
+func NewUserController(useCase *usecase.UserUseCase) *UserController {
 	return &UserController{UseCase: useCase}
 }
 
-func (uc *UserController) CreateUserController(w http.ResponseWriter, r *http.Request) {
+func (c *UserController) Register(w http.ResponseWriter, r *http.Request) {
 	var user struct {
 		ID       string `json:"id"`
 		Name     string `json:"name"`
@@ -34,7 +35,7 @@ func (uc *UserController) CreateUserController(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	err := uc.userService.CreateUser(user.ID, user.Name, user.Email, user.Password)
+	err := c.UseCase.Register(user.ID, user.Name, user.Email, user.Password)
 	if err != nil {
 		errorMessage := fmt.Sprintf("Failed to create user: %v", err)
 		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)
@@ -58,8 +59,8 @@ func (uc *UserController) CreateUserController(w http.ResponseWriter, r *http.Re
 
 	responses.SuccessResponse(w, "Success", userData, http.StatusCreated)
 }
-func (uc *UserController) FetchUserController(w http.ResponseWriter, r *http.Request) {
-	usersData, err := uc.userService.FetchUsers()
+func (c *UserController) Fetch(w http.ResponseWriter, r *http.Request) {
+	usersData, err := c.UseCase.Fetch()
 	if err != nil {
 		fmt.Println("tes")
 		errorMessage := fmt.Sprintf("Failed to get users: %v", err)
@@ -105,7 +106,7 @@ func (uc *UserController) FetchUserController(w http.ResponseWriter, r *http.Req
 	responses.SuccessResponse(w, "Success", responseData, http.StatusOK)
 }
 
-func (uc *UserController) GetUserController(w http.ResponseWriter, r *http.Request) {
+func (c *UserController) Get(w http.ResponseWriter, r *http.Request) {
 	// Mendapatkan parameter id
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
@@ -114,7 +115,7 @@ func (uc *UserController) GetUserController(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	userData, err := uc.userService.GetUser(id)
+	userData, err := c.UseCase.Get(id)
 	if err != nil {
 		errorMessage := fmt.Sprintf("Failed to get user: %v", err)
 		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)
@@ -139,7 +140,7 @@ func (uc *UserController) GetUserController(w http.ResponseWriter, r *http.Reque
 	responses.SuccessResponse(w, "Success", responseData, http.StatusOK)
 }
 
-func (uc *UserController) UpdateUserController(w http.ResponseWriter, r *http.Request) {
+func (c *UserController) Update(w http.ResponseWriter, r *http.Request) {
 	// Mendapatkan parameter id
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
@@ -154,8 +155,8 @@ func (uc *UserController) UpdateUserController(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	// Update user in the service layer
-	_, err := uc.userService.UpdateUser(id, updatedUser)
+	// Update user in the usecaselayer
+	_, err := c.UseCase.Update(id, updatedUser)
 	if err != nil {
 		errorMessage := fmt.Sprintf("Failed to update user: %v", err)
 		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)
@@ -176,7 +177,7 @@ func (uc *UserController) UpdateUserController(w http.ResponseWriter, r *http.Re
 	responses.SuccessResponse(w, "Success", updatedData, http.StatusOK)
 }
 
-func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
+func (c *UserController) Delete(w http.ResponseWriter, r *http.Request) {
 	// Mendapatkan parameter id
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
@@ -184,8 +185,8 @@ func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		responses.ErrorResponse(w, "id harus disertakan", http.StatusBadRequest)
 		return
 	}
-	// delete user in the service layer
-	err := uc.userService.DeleteUser(id)
+	// delete user in the usecaselayer
+	err := c.UseCase.Delete(id)
 	if err != nil {
 		errorMessage := fmt.Sprintf("Failed to Delete user: %v", err)
 		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)
@@ -194,7 +195,7 @@ func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	responses.OtherResponses(w, "Success delete user", http.StatusOK)
 }
-func (uc *UserController) LoginUser(w http.ResponseWriter, r *http.Request) {
+func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	var requestUser map[string]string
 
 	// Membaca data JSON dari body permintaan
@@ -216,8 +217,8 @@ func (uc *UserController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Memanggil service untuk melakukan login
-	token, err := uc.userService.LoginUser(email, password)
+	// Memanggil usecaseuntuk melakukan login
+	token, err := c.UseCase.Login(email, password)
 	if err != nil {
 		errorMessage := fmt.Sprintf("login failed: %v", err)
 
@@ -230,7 +231,7 @@ func (uc *UserController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	responses.SuccessResponse(w, "Login berhasil", response, http.StatusOK)
 }
 
-func (us *UserController) LogoutUser(w http.ResponseWriter, r *http.Request) {
+func (c *UserController) Logout(w http.ResponseWriter, r *http.Request) {
 	// Mendapatkan token dari header "Authorization"
 	tokenString := r.Header.Get("Authorization")
 
@@ -238,7 +239,7 @@ func (us *UserController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
 
 	// Memanggil fungsi LogoutUser dari service
-	err := us.userService.LogoutUser(tokenString)
+	err := c.UseCase.Logout(tokenString)
 	if err != nil {
 		// Mengatasi kesalahan
 		responses.ErrorResponse(w, err.Error(), http.StatusUnauthorized)

@@ -292,7 +292,7 @@ import (
 
 func main() {
     err := errors.New("A repo man spends his life getting into tense situations")
-    service := "myservice"
+    usecase:= "myservice"
 
     zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 

@@ -802,7 +802,7 @@ func (sa *SockaddrPPPoE) sockaddr() (unsafe.Pointer, _Socklen, error) {
 // SockaddrTIPC implements the Sockaddr interface for AF_TIPC type sockets.
 // For more information on TIPC, see: http://tipc.sourceforge.net/.
 type SockaddrTIPC struct {
-	// Scope is the publication scopes when binding service/service range.
+	// Scope is the publication scopes when binding service/usecaserange.
 	// Should be set to TIPC_CLUSTER_SCOPE or TIPC_NODE_SCOPE.
 	Scope int
 

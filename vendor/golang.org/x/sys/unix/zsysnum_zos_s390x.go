@@ -1086,7 +1086,7 @@ const (
 	SYS___GET_SYSTEM_SETTINGS           = 0x5BA
 	SYS___IPDOMAINNAME                  = 0x5AC
 	SYS___MAP_INIT                      = 0x5A7
-	SYS___MAP_SERVICE                   = 0x5A8
+	SYS___MAP_usecase                   = 0x5A8
 	SYS___MOUNT                         = 0x5AA
 	SYS___MSGRCV_TIMED                  = 0x5B7
 	SYS___RES                           = 0x5D6

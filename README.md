@@ -104,7 +104,7 @@ The project structure is designed for clarity and maintainability, following a c
 
 - **httpLayer:** Handles HTTP requests and serves as the entry point for external communication.
 
-- **Service Layer:** Contains business logic and orchestrates data flow between the httpand repository layers.
+- **usecaseLayer:** Contains business logic and orchestrates data flow between the httpand repository layers.
 
 - **Repository Layer:** Manages interactions with the database, providing an abstraction layer to the service.
 
