@@ -5,6 +5,7 @@ Welcome to the **clean-go Project !** This project provides a structured and com
 
 ## Table of Contents
 
+-[Architecture](#Architecture)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
@@ -13,6 +14,21 @@ Welcome to the **clean-go Project !** This project provides a structured and com
   - [Explanation of Project Structure](#explanation-of-project-structure)
 - [Dependencies](#dependencies)
 - [Contributing](#contributing)
+## Architecture
+![Clean Architecture](https://github.com/AzzamSyakir/clean-go/blob/main/architecture.png)
+External system perform request (HTTP, gRPC, Messaging, etc)
+The Delivery creates various Model from request data
+The Delivery calls Use Case, and execute it using Model data
+The Use Case create Entity data for the business logic
+The Use Case calls Repository, and execute it using Entity data
+The Repository use Entity data to perform database operation
+The Repository perform database operation to the database
+The Use Case create various Model for Gateway or from Entity data
+The Use Case calls Gateway, and execute it using Model data
+The Gateway using Model data to construct request to external system
+The Gateway perform request to external system (HTTP, gRPC, Messaging, etc)
+
+
 
 ## Introduction
 
