@@ -1,7 +1,7 @@
 package service
 
 import (
-	"clean-go/internal/entities"
+	"clean-go/internal/entity"
 	"clean-go/internal/repositories"
 	"errors"
 	"fmt"
@@ -49,26 +49,26 @@ func (service *UserService) CreateUser(id string, name, email, password string) 
 	return err
 }
 
-func (us *UserService) FetchUsers() ([]entities.User, error) {
+func (us *UserService) FetchUsers() ([]entity.User, error) {
 	return us.UserRepository.FetchUsers()
 }
-func (service *UserService) UpdateUser(id string, updatedUser entities.User) (entities.User, error) {
+func (service *UserService) UpdateUser(id string, updatedUser entity.User) (entity.User, error) {
 	// Business logic/validation goes here
 
 	// Validate if the user exists
 	user, err := service.UserRepository.GetUser(id)
 	if err != nil {
-		return entities.User{}, err
+		return entity.User{}, err
 	}
 	if user == nil {
-		return entities.User{}, errors.New("user not found")
+		return entity.User{}, errors.New("user not found")
 	}
 
 	// Update only non-empty fields
 	if updatedUser.Password != "" {
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(updatedUser.Password), bcrypt.DefaultCost)
 		if err != nil {
-			return entities.User{}, err
+			return entity.User{}, err
 		}
 		user.Password = string(hashedPassword)
 	}
@@ -87,11 +87,11 @@ func (service *UserService) UpdateUser(id string, updatedUser entities.User) (en
 	// Call repository to update user in the database
 	err = service.UserRepository.UpdateUser(*user)
 	if err != nil {
-		return entities.User{}, err
+		return entity.User{}, err
 	}
 
 	// Return only the updated data
-	updatedData := entities.User{
+	updatedData := entity.User{
 		ID:        user.ID,
 		Name:      user.Name,
 		Email:     user.Email,
@@ -114,7 +114,7 @@ func (service *UserService) DeleteUser(id string) error {
 
 	return nil
 }
-func (us *UserService) GetUser(id string) (*entities.User, error) {
+func (us *UserService) GetUser(id string) (*entity.User, error) {
 	return us.UserRepository.GetUser(id)
 }
 

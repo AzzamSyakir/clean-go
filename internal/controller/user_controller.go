@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	models "clean-go/internal/entities"
+	models "clean-go/internal/entity"
 	"clean-go/internal/responses"
 	"clean-go/internal/service"
 

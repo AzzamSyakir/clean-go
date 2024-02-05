@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"clean-go/internal/entities"
+	"clean-go/internal/entity"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -26,17 +26,17 @@ func (ur *UserRepository) CreateUser(id, name, email, hashedPassword string, cre
 	return err
 }
 
-func (ur *UserRepository) FetchUsers() ([]entities.User, error) {
+func (ur *UserRepository) FetchUsers() ([]entity.User, error) {
 	rows, err := ur.db.Query("SELECT id, name, email, password, created_at, updated_at FROM users")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var users []entities.User
+	var users []entity.User
 
 	for rows.Next() {
-		var user entities.User
+		var user entity.User
 		err := rows.Scan(
 			&user.ID,
 			&user.Name,
@@ -54,7 +54,7 @@ func (ur *UserRepository) FetchUsers() ([]entities.User, error) {
 
 	return users, nil
 }
-func (ur *UserRepository) UpdateUser(user entities.User) error {
+func (ur *UserRepository) UpdateUser(user entity.User) error {
 	query := "UPDATE users SET updated_at = ?, name = ?, email = ?, password = ? WHERE id = ?"
 	_, err := ur.db.Exec(query, user.UpdatedAt, user.Name, user.Email, user.Password, user.ID)
 	if err != nil {
@@ -100,8 +100,8 @@ func (ur *UserRepository) DeleteToken(id string) error {
 
 	return nil
 }
-func (ur *UserRepository) GetUser(id string) (*entities.User, error) {
-	user := &entities.User{}
+func (ur *UserRepository) GetUser(id string) (*entity.User, error) {
+	user := &entity.User{}
 
 	err := ur.db.QueryRow("SELECT id, name, email, password, created_at, updated_at FROM users WHERE id=?", id).Scan(
 		&user.ID,
@@ -117,8 +117,8 @@ func (ur *UserRepository) GetUser(id string) (*entities.User, error) {
 
 	return user, nil
 }
-func (ur *UserRepository) LoginUser(email string) (*entities.User, error) {
-	user := &entities.User{}
+func (ur *UserRepository) LoginUser(email string) (*entity.User, error) {
+	user := &entity.User{}
 
 	err := ur.db.QueryRow("SELECT id, name, password FROM users WHERE email=?", email).Scan(&user.ID, &user.Name, &user.Password)
 	if err != nil {

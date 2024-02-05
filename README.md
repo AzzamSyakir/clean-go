@@ -84,7 +84,7 @@ The project structure is designed for clarity and maintainability, following a c
 │   │   └── user_service.go (handles business logic)
 │   ├── repositories/
 │   │   └── user_repository.go (manages database interactions)
-│   ├── entities/
+│   ├── entity/
 │   │   └── user.go (declares the user entity)
 │   ├── middleware/
 │   │   └── middleware.go (houses middleware code)
@@ -108,7 +108,7 @@ The project structure is designed for clarity and maintainability, following a c
 
 - **Repository Layer:** Manages interactions with the database, providing an abstraction layer to the service.
 
-- **Entity Layer:** Declares data structures representing entities in the application, such as database tables.
+- **Entity Layer:** Declares data structures representing entity in the application, such as database tables.
 
 - **Middleware Layer:** Houses middleware code for common functionalities.
 
