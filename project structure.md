@@ -16,7 +16,7 @@ clean-go/
 │   │   └── user_entity.go (declaration of user entity struct)
 │   ├── usecase/
 │   │   └── user_usecase.go (layer usecase handling business logic)
-│   ├── repositories/
+│   ├── repository/
 │   │   └── user_repository.go (layer repositories handling HTTP interactions to the database)
 │   └── config/
 │       └── db.go (initialize database connection)
