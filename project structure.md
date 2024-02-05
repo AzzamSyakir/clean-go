@@ -20,7 +20,7 @@ clean-go/
 │   │   └── user_repository.go (layer repositories handling HTTP interactions to the database)
 │   └── config/
 │       └── db.go (initialize database connection)
-|   └── gateway/
+|   └── gateway/messaging/
 │       └── db.go (initialize database connection)
 ├── migration/
 │   ├── User.go (initialize user table migration)
