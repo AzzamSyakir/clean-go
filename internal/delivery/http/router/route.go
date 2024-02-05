@@ -1,8 +1,8 @@
-package router
+package route
 
 import (
 	"clean-go/internal/config"
-	"clean-go/internal/controller"
+	"clean-go/internal/delivery/http"
 	"clean-go/internal/middleware"
 	"clean-go/internal/repositories"
 	"clean-go/internal/service"
@@ -21,8 +21,8 @@ func Router(db *sql.DB) *mux.Router {
 	// Initialize services
 	userusecase := service.NewUserService(*userRepository)
 
-	// Initialize controllers
-	userhttp := controller.NewUserController(*userService)
+	// Initialize http
+	userhttp := controller.NewUserController(*&userusecase)
 
 	// Create a new router
 	router := mux.NewRouter()

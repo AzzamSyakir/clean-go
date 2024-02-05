@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"clean-go/internal/entity"
-	"clean-go/internal/repositories"
+	"clean-go/internal/repository"
 	"errors"
 	"fmt"
 	"os"
@@ -14,10 +14,10 @@ import (
 )
 
 type UserUseCase struct {
-	UserRepository repositories.UserRepository
+	UserRepository repository.UserRepository
 }
 
-func NewUserUseCase(userRepository repositories.UserRepository) *UserUseCase {
+func NewUserUseCase(userRepository repository.UserRepository) *UserUseCase {
 	return &UserUseCase{
 		UserRepository: userRepository,
 	}
