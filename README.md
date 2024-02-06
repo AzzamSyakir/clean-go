@@ -62,8 +62,7 @@ cd your-repo
 ```bash
 docker compose up --build -d
 ```
-2. Set up your environment variables:
-
+3. Set up your environment variables:
 Create a **.env** file based on **.env.example** and fill in the required configuration.
 
 3. Install dependencies:
