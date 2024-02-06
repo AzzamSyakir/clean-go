@@ -58,6 +58,10 @@ To get started with this project, follow these steps:
 git clone this repo link
 cd your-repo
 ```
+2. run docker compose :
+```bash
+docker compose up --build -d
+```
 2. Set up your environment variables:
 
 Create a **.env** file based on **.env.example** and fill in the required configuration.
