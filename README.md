@@ -53,36 +53,36 @@ This Golang project template is designed to showcase best practices for testing 
 
 To get started with this project, follow these steps:
 
-1. ## Clone the repository:
+## 1.  Clone the repository:
 ``` git
 git clone this repo link
 cd your-repo
 ```
-2. ## run docker compose :
+##  2. run docker compose :
 ```bash
 docker compose up --build -d
 ```
-3. ## Set up your environment variables:
+## 3.  Set up your environment variables:
 
    
 Create a **.env** file based on **.env.example** and fill in the required configuration.
 
-4. ## Install dependencies:
+## 4. Install dependencies:
 
 ```go
 go mod download
 ```
-5. ## change your database configuration
+## 5.  change your database configuration
 
 in **db.go** and setup tabels in package **migrate**
 
 
 
-8. ## run migrate to migrate your tabel to database 
+## 8. run migrate to migrate your tabel to database 
  ```make
  make migrate
  ```
-7. ## run projects
+## 7.  run projects
  ```make
  make or make run
  ```
