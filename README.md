@@ -63,20 +63,21 @@ cd your-repo
 docker compose up --build -d
 ```
 3. Set up your environment variables:
+   
 Create a **.env** file based on **.env.example** and fill in the required configuration.
 
-3. Install dependencies:
+4. Install dependencies:
 
 ```go
 go mod download
 ```
-4. change your database configuration in **db.go** and setup tabels in package **migrate**
+5. change your database configuration in **db.go** and setup tabels in package **migrate**
 
-5. run migrate to migrate your tabel to database 
+6. run migrate to migrate your tabel to database 
  ```make
  make migrate
  ```
- 6. run projects
+ . run projects
  ```make
  make or make run
  ```
