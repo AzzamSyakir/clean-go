@@ -78,7 +78,7 @@ go mod download
  ```make
  make migrate
  ```
- . run projects
+7. run projects
  ```make
  make or make run
  ```
