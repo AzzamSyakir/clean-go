@@ -241,11 +241,11 @@ func (c *UserController) Logout(w http.ResponseWriter, r *http.Request) {
 	// Memanggil fungsi LogoutUser dari service
 	err := c.UseCase.Logout(tokenString)
 	if err != nil {
-		// Mengatasi kesalahan
-		responses.ErrorResponse(w, err.Error(), http.StatusUnauthorized)
+		errorMessage := fmt.Sprintf("Failed to logout user: %v", err)
+		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)
 		return
 	}
 
 	// Mengembalikan token yang baru setelah logout
-	responses.OtherResponses(w, "logout berhasil", http.StatusCreated)
+	responses.OtherResponses(w, "logout berhasil", http.StatusOK)
 }
