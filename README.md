@@ -4,7 +4,6 @@
 Welcome to the **clean-go Project !** This project provides a structured and comprehensive template for testing **APIs**, covering basic **CRUD operations** for user management, including features like login and register.
 
 ## Table of Contents
-
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
