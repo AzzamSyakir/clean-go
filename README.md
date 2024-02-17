@@ -40,6 +40,8 @@ Welcome to the **clean-go Project !** This project provides a structured and com
 This architecture promotes separation of concerns and enhances maintainability, scalability, and testability. Each layer has a specific responsibility, contributing to a well-organized and comprehensible codebase.
 
 
+
+
 # Introduction
 
 This Golang project template is designed to showcase best practices for testing in Go applications. It focuses on creating a simple API for user management, including registration, login, and basic CRUD operations. The goal is to provide a clean and well-organized foundation for building scalable and maintainable applications.
