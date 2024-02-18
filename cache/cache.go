@@ -131,11 +131,14 @@ func UpdateCache(RedisKey string, updateData interface{}) error {
 }
 
 // menyimpan data ke cache dengan Redis key
-func SetCached(redisKey string, data []byte) error {
+func SetCached(redisKey string, data []byte, expirationTime time.Time) error {
 	ctx := context.Background()
 
-	// Simpan data ke cache dengan waktu kadaluarsa
-	err := RedisClient.SetEx(ctx, redisKey, data, time.Second*60).Err()
+	// Calculate the duration until the expiration time
+	expirationDuration := time.Until(expirationTime)
+
+	// Store the data in the cache with the expiration time
+	err := RedisClient.SetEx(ctx, redisKey, data, expirationDuration).Err()
 	if err != nil {
 		return fmt.Errorf("error setting data to cache: %v", err)
 	}
