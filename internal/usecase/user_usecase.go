@@ -67,12 +67,8 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	claims := token.Claims.(jwt.MapClaims)
 	claims["user_id"] = user.ID
 	claims["username"] = user.Name
-
-	// Membuat zona waktu WIB (Asia/Jakarta)
-	wib := time.FixedZone("Asia/Jakarta", 7*60*60)
-
-	// Menentukan waktu kedaluwarsa dalam zona waktu WIB
-	expirationTimeWIB := time.Now().In(wib).Add(time.Hour)
+	// buat exp time
+	expirationTimeWIB := time.Now().Add(time.Hour)
 	claims["exp"] = expirationTimeWIB.Unix() // Token berlaku selama 1 jam dalam zona waktu WIB
 
 	// Menandatangani token dengan secret key
@@ -87,7 +83,7 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	uuid := uuid.New()
 	tokensID := uuid.String()
 
-	// Simpan token dan ID pengguna ke dalam tabel tokens
+	// Simpan token dan ID pengguna ke dalam cache
 	err = c.UserRepository.SaveToken(tokensID, user.ID, tokenString, expirationTimeWIB.Unix())
 	if err != nil {
 		return "", err
