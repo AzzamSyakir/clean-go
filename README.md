@@ -69,7 +69,6 @@ docker compose up --build -d
 Create a **.env** file based on **.env.example** and fill in the required configuration.
 
 
-
 ## 4. Install dependencies:
 
 ```go
