@@ -17,7 +17,6 @@ Welcome to the **clean-go Project !** This project provides a structured and com
 ![Clean Architecture](https://github.com/AzzamSyakir/clean-go/blob/main/architecture.png)
 
 
-
 ## Workflow:
 1. External system initiates a request (HTTP, gRPC, Messaging, etc).
 2. The Delivery layer creates various Models from request data.
