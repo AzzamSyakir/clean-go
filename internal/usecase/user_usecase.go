@@ -1,8 +1,10 @@
 package usecase
 
 import (
+	"clean-go/cache"
 	"clean-go/internal/entity"
 	"clean-go/internal/repository"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -68,8 +70,8 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	claims["user_id"] = user.ID
 	claims["username"] = user.Name
 	// buat exp time
-	expirationTimeWIB := time.Now().Add(time.Hour)
-	claims["exp"] = expirationTimeWIB.Unix() // Token berlaku selama 1 jam dalam zona waktu WIB
+	expirationTime := time.Now().Add(time.Hour)
+	claims["exp"] = expirationTime.Unix() // set token dengan exp time yng ditentukan
 
 	// Menandatangani token dengan secret key
 	secretKeyString := os.Getenv("SECRET_KEY")
@@ -79,12 +81,31 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	// Generate a UUID for the user
-	uuid := uuid.New()
-	tokensID := uuid.String()
+	// Mendapatkan UUID baru
+	newUUID := uuid.New()
+
+	// Menggunakan UUID sebagai Redis key
+	tokensID := newUUID.String()
+
+	//struct token dan user id
+	type TokenAndUserID struct {
+		Token  string
+		UserID string
+	}
 
 	// Simpan token dan ID pengguna ke dalam cache
-	err = c.UserRepository.SaveToken(tokensID, user.ID, tokenString, expirationTimeWIB.Unix())
+	var tokenAndUserID TokenAndUserID
+	tokenAndUserID.Token = tokenString
+	tokenAndUserID.UserID = user.ID
+
+	// Mengonversi instance ke dalam bentuk byte menggunakan encoding JSON
+	data, err := json.Marshal(tokenAndUserID)
+	if err != nil {
+		return "", err
+	}
+
+	// Simpan data ke dalam cache
+	err = cache.SetCached(tokensID, data, expirationTime)
 	if err != nil {
 		return "", err
 	}
