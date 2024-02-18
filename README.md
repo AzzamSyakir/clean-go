@@ -1,11 +1,7 @@
-
 # clean-go Project 
 
 
-
 Welcome to the **clean-go Project !** This project provides a structured and comprehensive template for testing **APIs**, covering basic **CRUD operations** for user management, including features like login and register.
-
-
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -17,11 +13,8 @@ Welcome to the **clean-go Project !** This project provides a structured and com
 - [Contributing](#contributing)
 
 
-
-
 # Clean Architecture
 ![Clean Architecture](https://github.com/AzzamSyakir/clean-go/blob/main/architecture.png)
-
 
 
 ## Workflow:
@@ -38,7 +31,6 @@ Welcome to the **clean-go Project !** This project provides a structured and com
 11. The Gateway performs requests to external systems (HTTP, gRPC, Messaging, etc).
 
 This architecture promotes separation of concerns and enhances maintainability, scalability, and testability. Each layer has a specific responsibility, contributing to a well-organized and comprehensible codebase.
-
 
 
 # Introduction
@@ -75,7 +67,6 @@ docker compose up --build -d
 
    
 Create a **.env** file based on **.env.example** and fill in the required configuration.
-
 
 
 ## 4. Install dependencies:
