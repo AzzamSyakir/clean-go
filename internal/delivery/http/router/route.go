@@ -1,7 +1,7 @@
 package router
 
 import (
-	"clean-go/internal/config"
+	"clean-go/config"
 	userHttp "clean-go/internal/delivery/http"
 	"clean-go/internal/delivery/http/middleware"
 	"clean-go/internal/repository"
