@@ -1,7 +1,14 @@
 package main
 
 import (
-    "os"
+	"clean-go/internal/config"
+	"clean-go/internal/delivery/http/router"
+	"clean-go/migration"
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
