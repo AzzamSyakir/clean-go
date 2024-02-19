@@ -8,7 +8,7 @@ services:
         - 3306:3306
       environment:
         TZ: Asia/Jakarta 
-        MYSQL_ROOT_PASSWORD: root
+        MYSQL_ROOT_PASSWORD: password
         MYSQL_USER: user
         MYSQL_PASSWORD: password
       volumes:
@@ -25,7 +25,7 @@ services:
       TZ: Asia/Jakarta 
       PMA_HOST: db
       PMA_USER: root
-      PMA_PASSWORD: root
+      PMA_PASSWORD: password
       PMA_ARBITRARY: 1
   
   redis:
