@@ -1,41 +1,41 @@
-package main
-
 import (
-	"clean-go/internal/config"
-	"clean-go/internal/delivery/http/router"
-	"clean-go/migration"
-	"fmt"
-	"log"
-	"os"
-
-	"github.com/joho/godotenv"
+    "os"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+    // Check command line arguments
+    if len(os.Args) > 1 {
+        // If the argument is "migration", run migration
+        if os.Args[1] == "migration" {
+            // Initialize database
+            db, err := config.InitDB()
+            if err != nil {
+                log.Fatal("Error connecting to database:", err)
+            }
+            err = migration.MigrationDb(db)
+            if err != nil {
+                log.Fatal("Error running migrations:", err)
+            }
+            fmt.Println("Migrations successfully!")
+            return
+        }
+        // If the argument is "migrate", run migration
+        if os.Args[1] == "migrate" {
+            // Initialize database
+            db, err := config.InitDB()
+            if err != nil {
+                log.Fatal("Error connecting to database:", err)
+            }
+            err = migration.MigrationDb(db)
+            if err != nil {
+                log.Fatal("Error running migrations:", err)
+            }
+            fmt.Println("Migrations successfully!")
+            return
+        }
+    }
 
-	// Cek argumen command line
-	if len(os.Args) > 1 {
-		// Jika argumen adalah "migration", jalankan migrasi
-		if os.Args[1] == "migration" {
-			// Initialize database
-			db, err := config.InitDB()
-			if err != nil {
-				log.Fatal("Error connecting to database:", err)
-			}
-			err = migration.MigrationDb(db)
-			if err != nil {
-				log.Fatal("Error running migrations:", err)
-			}
-			fmt.Println("Migrations successfully!")
-			return
-		}
-	}
-
-	// Jika tidak ada argumen, jalankan servm per
-	fmt.Println("Server started on port 9000")
-	router.RunServer()
+    // If there are no arguments, run the server
+    fmt.Println("Server started on port 9000")
+    router.RunServer()
 }
