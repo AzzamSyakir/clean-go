@@ -2,9 +2,9 @@ package test
 
 import (
 	"bytes"
-	"clean-go/internal/config"
+	"clean-go/config"
 	"clean-go/internal/delivery/http/router"
-	"clean-go/migration"
+	"clean-go/migrate"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -24,7 +24,7 @@ func TestSetup(t *testing.T) {
 		t.Fatalf("Error loading .env file: %v", err)
 	}
 	db := config.InitDBTest() // Menginisialisasi database test
-	migration.MigrationDb(db) // migration tabel to database
+	migrate.MigrationDb(db)   // migratetabel to database
 	globalDB = db
 	if globalDB == nil {
 		t.Errorf("database null")
