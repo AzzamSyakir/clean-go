@@ -19,7 +19,7 @@ var loginToken string
 var globalDB *sql.DB
 
 func TestSetup(t *testing.T) {
-	envPath := "/var/www/html/clean-go/.env" // Sesuaikan dengan path env Anda
+	envPath := "/home/asa/Documents/project/go/clean-go/.env" // Sesuaikan dengan path env Anda
 	if err := godotenv.Load(envPath); err != nil {
 		t.Fatalf("Error loading .env file: %v", err)
 	}
