@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"time"
@@ -18,11 +19,9 @@ var RedisAddr string          // tambahkan variabel untuk menyimpan alamat Redis
 var RedisKey string           // RedisKey adalah kunci untuk menyimpan data user di cache
 
 // InitRedis inisialisasi koneksi ke Redis
-func InitRedis() *redis.Client {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file:", err)
-		os.Exit(1)
+func InitRedis(envPath string) *redis.Client {
+	if err := godotenv.Load(envPath); err != nil { //using relative path
+		log.Fatalf("Error loading .env in caching: %v", err)
 	}
 
 	RedisAddr := os.Getenv("REDIS_ADDR")
