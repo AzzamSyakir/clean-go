@@ -81,11 +81,8 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	// Mendapatkan UUID baru
-	newUUID := uuid.New()
 
-	// Menggunakan UUID sebagai Redis key
-	tokensID := newUUID.String()
+	redisKey := fmt.Sprintf("tokens:%s", user.ID) // Gunakan id token sebagai RedisKey
 
 	//struct token dan user id
 	type TokenAndUserID struct {
@@ -105,7 +102,7 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	}
 
 	// Simpan data ke dalam cache
-	err = cache.SetCached(tokensID, data, expirationTime)
+	err = cache.SetCached(redisKey, data, expirationTime)
 	if err != nil {
 		return "", err
 	}
