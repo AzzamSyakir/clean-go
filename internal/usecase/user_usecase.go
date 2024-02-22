@@ -63,53 +63,48 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 		return "", fmt.Errorf("password salah")
 	}
 
-	// Jika login berhasil, buat token JWT
-	token := jwt.New(jwt.SigningMethodHS256)
-
-	// Menentukan klaim (claims) token
-	claims := token.Claims.(jwt.MapClaims)
-	claims["user_id"] = user.ID
-	claims["username"] = user.Name
-	// buat exp time
-	expirationTime := time.Now().Add(time.Hour)
-	claims["exp"] = expirationTime.Unix() // set token dengan exp time yng ditentukan
-
-	// Menandatangani token dengan secret key
-	secretKeyString := os.Getenv("SECRET_KEY")
-	secretKey := []byte(secretKeyString)
-
-	tokenString, err := token.SignedString(secretKey)
+	// Menghasilkan string acak sebagai bagian dari token
+	randomString, err := utils.GenerateRandomString(12)
 	if err != nil {
 		return "", err
 	}
 
-	redisKey := fmt.Sprintf("tokens:%s", user.ID) // Gunakan id token sebagai RedisKey
+	// Membuat token dari UUID user ditambah string acak
+	token := fmt.Sprintf("%s:%s", user.ID, randomString)
 
-	//struct token dan user id
+	// Menentukan waktu kadaluarsa token
+	expirationTime := time.Now().Add(24 * time.Hour) // Misal, token berlaku selama 24 jam
+
+	// Menyiapkan data untuk disimpan di Redis
+	redisKey := fmt.Sprintf("tokens:%s", token) // Gunakan token sebagai kunci Redis
+
+	// Struct untuk menyimpan token dan user ID
 	type TokenAndUserID struct {
-		Token  string
-		UserID string
+		Token  string `json:"token"`
+		UserID string `json:"userId"`
 	}
 
 	// Simpan token dan ID pengguna ke dalam cache
-	var tokenAndUserID TokenAndUserID
-	tokenAndUserID.Token = tokenString
-	tokenAndUserID.UserID = user.ID
+	tokenAndUserID := TokenAndUserID{
+		Token:  token,
+		UserID: user.ID,
+	}
 
-	// Mengonversi instance ke dalam bentuk byte menggunakan encoding JSON
+	// Mengonversi struct ke dalam bentuk JSON
 	data, err := json.Marshal(tokenAndUserID)
 	if err != nil {
 		return "", err
 	}
 
-	// Simpan data ke dalam cache
+	// Simpan data ke dalam cache dengan waktu kadaluarsa
 	err = cache.SetCached(redisKey, data, expirationTime)
 	if err != nil {
 		return "", err
 	}
 
-	return tokenString, nil
+	return token, nil
 }
+
 func (c *UserUseCase) Logout(tokenString string) error {
 	type DataUsers struct {
 		Username string `json:"username"`
