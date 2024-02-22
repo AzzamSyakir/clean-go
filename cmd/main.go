@@ -26,7 +26,7 @@ func main() {
 			if err != nil {
 				log.Fatal("Error connecting to database:", err)
 			}
-			err = migrate.MigrationDb(db)
+			err = migrate.MigrateDB(db)
 			if err != nil {
 				log.Fatal("Error running migrations:", err)
 			}
