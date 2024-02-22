@@ -1,13 +1,13 @@
 package usecase
 
 import (
-	"clean-go/cache"
-	"clean-go/internal/entity"
-	"clean-go/internal/repository"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
+	"testing-golang/cache"
+	"testing-golang/internal/entity"
+	"testing-golang/internal/repository"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -25,6 +25,7 @@ func NewUserUseCase(userRepository repository.UserRepository) *UserUseCase {
 	}
 }
 
+// authentication
 func (c *UserUseCase) Register(id string, name, email, password string) error {
 	// Hashing password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -109,6 +110,39 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 
 	return tokenString, nil
 }
+func (c *UserUseCase) Logout(tokenString string) error {
+	type DataUsers struct {
+		Username string `json:"username"`
+		UserId   string `json:"user_id"`
+		jwt.StandardClaims
+	}
+	// Parse token dan dapatkan claims
+	token, err := jwt.ParseWithClaims(tokenString, &DataUsers{}, func(token *jwt.Token) (interface{}, error) {
+		// Verifikasi bahwa metode tanda tangan sesuai
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("metode tanda tangan tidak valid: %v", token.Header["alg"])
+		}
+		// Kembalikan secret key untuk memverifikasi tanda tangan
+		secretKeyString := os.Getenv("SECRET_KEY")
+		return []byte(secretKeyString), nil
+	})
+	if err != nil {
+		return fmt.Errorf("gagal mengurai token: %v", err)
+	}
+
+	// Mengekstrak klaim dari token
+	claims, ok := token.Claims.(*DataUsers)
+	if !ok {
+		return err
+	}
+	userID := claims.UserId
+	currentTime := time.Now()
+
+	c.UserRepository.LogoutUser(userID, currentTime)
+	return err
+}
+
+// basic user's operations
 func (c *UserUseCase) Fetch() ([]entity.User, error) {
 	return c.UserRepository.FetchUsers()
 }
@@ -161,13 +195,11 @@ func (c *UserUseCase) Update(id string, updatedUser entity.User) (entity.User, e
 	return updatedData, nil
 }
 func (usecase *UserUseCase) Delete(id string) error {
-	// call repositoryto Delete Token  in the db
-	err := usecase.UserRepository.DeleteToken(id)
-	if err != nil {
-		return err
-	}
+	// delete token cache
+	RedisKey := fmt.Sprintf("tokens:%s", id) // Gunakan token + id user  sebagai RedisKey
+	cache.DeleteCached(RedisKey)
 	// Call repository to delete user in the database
-	err = usecase.UserRepository.DeleteUser(id)
+	err := usecase.UserRepository.DeleteUser(id)
 	if err != nil {
 		return err
 	}
@@ -176,36 +208,4 @@ func (usecase *UserUseCase) Delete(id string) error {
 }
 func (c *UserUseCase) Get(id string) (*entity.User, error) {
 	return c.UserRepository.GetUser(id)
-}
-
-func (c *UserUseCase) Logout(tokenString string) error {
-	type DataUsers struct {
-		Username string `json:"username"`
-		UserId   string `json:"user_id"`
-		jwt.StandardClaims
-	}
-	// Parse token dan dapatkan claims
-	token, err := jwt.ParseWithClaims(tokenString, &DataUsers{}, func(token *jwt.Token) (interface{}, error) {
-		// Verifikasi bahwa metode tanda tangan sesuai
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("metode tanda tangan tidak valid: %v", token.Header["alg"])
-		}
-		// Kembalikan secret key untuk memverifikasi tanda tangan
-		secretKeyString := os.Getenv("SECRET_KEY")
-		return []byte(secretKeyString), nil
-	})
-	if err != nil {
-		return fmt.Errorf("gagal mengurai token: %v", err)
-	}
-
-	// Mengekstrak klaim dari token
-	claims, ok := token.Claims.(*DataUsers)
-	if !ok {
-		return err
-	}
-	userID := claims.UserId
-	currentTime := time.Now()
-
-	c.UserRepository.LogoutUser(userID, currentTime)
-	return err
 }
