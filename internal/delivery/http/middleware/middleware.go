@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"clean-go/cache"
 	"clean-go/internal/gateway/responses"
 	"fmt"
 	"net/http"
@@ -20,6 +21,8 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
+		//get data from cache
+		DataToken := cache.GetCached(tokenString)
 		// Mendapatkan kunci rahasia dari environment variable
 		secretKeyString := os.Getenv("SECRET_KEY")
 		secretKey := []byte(secretKeyString)
