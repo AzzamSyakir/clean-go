@@ -17,9 +17,5 @@ func MigrationDb(db *sql.DB) error {
 		log.Error().Err(err).Msg("Gagal melakukan migrasi user")
 	}
 
-	if err := Tokenmigration(db); err != nil {
-		log.Error().Err(err).Msg("Gagal melakukan migrasi token")
-	}
-
 	return err
 }
