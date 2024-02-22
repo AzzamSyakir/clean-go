@@ -1,6 +1,7 @@
 package main
 
 import (
+	"clean-go/cache"
 	"clean-go/config"
 	"clean-go/internal/delivery/http/router"
 	"clean-go/migrate"
@@ -12,10 +13,18 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
+	envpath := ".env"
+	err := godotenv.Load(envpath)
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+	// Initialize Redis
+	cache.InitRedis(envpath)
+	defer func() {
+		if err := cache.RedisClient.Close(); err != nil {
+			log.Println("Error closing Redis:", err)
+		}
+	}()
 
 	// Cek argumen command line
 	if len(os.Args) > 1 {
