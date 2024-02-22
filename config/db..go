@@ -9,8 +9,6 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-var DB *sql.DB
-
 // InitDB digunakan untuk menghubungkan ke database.
 func InitDB() (*sql.DB, error) {
 
@@ -38,12 +36,9 @@ func InitDB() (*sql.DB, error) {
 
 	log.Info().Msg("Terhubung ke database!")
 
-	DB = db
-
 	return db, nil
 }
-
-func InitDBTest() *sql.DB {
+func InitDBTest() (*sql.DB, error) {
 
 	//baca env nya
 	sqlInfo := fmt.Sprintf(
@@ -67,5 +62,7 @@ func InitDBTest() *sql.DB {
 		log.Fatal().Err(err).Msg("Gagal melakukan ping ke database")
 	}
 
-	return db
+	log.Info().Msg("Terhubung ke database!")
+
+	return db, nil
 }
