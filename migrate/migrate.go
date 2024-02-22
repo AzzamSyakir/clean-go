@@ -6,7 +6,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func MigrationDb(db *sql.DB) error {
+func MigrateDB(db *sql.DB) error {
 	// Memeriksa koneksi ke database
 	err := db.Ping()
 	if err != nil {
