@@ -149,7 +149,7 @@ func (ur *UserRepository) SaveToken(TokensID, userID string, token string, expir
 
 	return err
 }
-func (ur *UserRepository) LogoutUser(redisKey string, updatedAt time.Time) error {
+func (ur *UserRepository) LogoutUser(redisKey string) error {
 	// Menghapus token dari Redis
 	err := cache.DeleteCached(redisKey)
 	if err != nil {
