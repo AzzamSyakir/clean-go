@@ -75,7 +75,7 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour) // Misal, token berlaku selama 24 jam
 
 	// Menyiapkan data untuk disimpan di Redis
-	redisKey := fmt.Sprintf("tokens:%s", user.ID) // Gunakan token sebagai kunci Redis
+	redisKey := fmt.Sprintf("tokens:%s", token) // Gunakan token sebagai kunci Redis
 
 	// Struct untuk menyimpan token dan user ID
 	type TokenAndUserID struct {
