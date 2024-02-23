@@ -24,7 +24,8 @@ func InitRedis(envPath string) *redis.Client {
 		log.Fatalf("Error loading .env in caching: %v", err)
 	}
 
-	RedisAddr := os.Getenv("REDIS_ADDR")
+	redisHost := os.Getenv("REDIS_HOST")
+	redisPort := os.Getenv("REDIS_PORT")
 	RedisPassword := os.Getenv("REDIS_PW")
 	RedisDBStr := os.Getenv("REDIS_DB")
 
@@ -35,7 +36,7 @@ func InitRedis(envPath string) *redis.Client {
 	}
 
 	options := &redis.Options{
-		Addr:     RedisAddr,
+		Addr:     fmt.Sprintf("%s:%s", redisHost, redisPort),
 		Password: RedisPassword,
 		DB:       RedisDB,
 	}
