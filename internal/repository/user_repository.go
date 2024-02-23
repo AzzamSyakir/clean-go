@@ -150,7 +150,7 @@ func (ur *UserRepository) SaveToken(TokensID, userID string, token string, expir
 	return err
 }
 func (ur *UserRepository) LogoutUser(redisKey string, updatedAt time.Time) error {
-	// Menghapus token dari Redis
+	// Menghapus token dari Redi
 	err := cache.DeleteCached(redisKey)
 	if err != nil {
 		return err
