@@ -64,7 +64,7 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	}
 
 	// Menghasilkan string acak sebagai bagian dari token
-	randomString, err := utils.GenerateRandomString(12)
+	// randomString, err := utils.GenerateRandomString(12)
 	if err != nil {
 		return "", err
 	}
