@@ -8,10 +8,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -77,7 +75,7 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour) // Misal, token berlaku selama 24 jam
 
 	// Menyiapkan data untuk disimpan di Redis
-	redisKey := fmt.Sprintf("tokens:%s", token) // Gunakan token sebagai kunci Redis
+	redisKey := fmt.Sprintf("tokens:%s", user.ID) // Gunakan token sebagai kunci Redis
 
 	// Struct untuk menyimpan token dan user ID
 	type TokenAndUserID struct {
@@ -107,34 +105,7 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 }
 
 func (c *UserUseCase) Logout(tokenString string) error {
-	type DataUsers struct {
-		Username string `json:"username"`
-		UserId   string `json:"user_id"`
-		jwt.StandardClaims
-	}
-	// Parse token dan dapatkan claims
-	token, err := jwt.ParseWithClaims(tokenString, &DataUsers{}, func(token *jwt.Token) (interface{}, error) {
-		// Verifikasi bahwa metode tanda tangan sesuai
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("metode tanda tangan tidak valid: %v", token.Header["alg"])
-		}
-		// Kembalikan secret key untuk memverifikasi tanda tangan
-		secretKeyString := os.Getenv("SECRET_KEY")
-		return []byte(secretKeyString), nil
-	})
-	if err != nil {
-		return fmt.Errorf("gagal mengurai token: %v", err)
-	}
-
-	// Mengekstrak klaim dari token
-	claims, ok := token.Claims.(*DataUsers)
-	if !ok {
-		return err
-	}
-	userID := claims.UserId
-	currentTime := time.Now()
-
-	c.UserRepository.LogoutUser(userID, currentTime)
+	c.UserRepository.LogoutUser(tokenString)
 	return err
 }
 
