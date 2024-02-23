@@ -105,8 +105,9 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 }
 
 func (c *UserUseCase) Logout(tokenString string) error {
-	c.UserRepository.LogoutUser(tokenString)
-	return err
+	redisKey := fmt.Sprintf("tokens:%s", tokenString) // Gunakan token sebagai kunci Redis
+	c.UserRepository.LogoutUser(redisKey)             //delete AccesTokentoken in redis
+	return nil
 }
 
 // basic user's operations
