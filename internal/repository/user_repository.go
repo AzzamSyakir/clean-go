@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"clean-go/cache"
 	"clean-go/internal/entity"
 	"database/sql"
 	"errors"
@@ -148,24 +149,12 @@ func (ur *UserRepository) SaveToken(TokensID, userID string, token string, expir
 
 	return err
 }
-func (ur *UserRepository) LogoutUser(userId string, updatedAt time.Time) error {
-	logoutUserSQL := `
-	    UPDATE tokens SET is_revoked=?, updated_at=CONVERT_TZ(?, '+00:00', '+07:00') WHERE user_id=?
-	`
-
-	result, err := ur.db.Exec(logoutUserSQL, 1, updatedAt, userId)
+func (ur *UserRepository) LogoutUser(redisKey string, updatedAt time.Time) error {
+	// Menghapus token dari Redis
+	err := cache.DeleteCached(redisKey)
 	if err != nil {
 		return err
 	}
 
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		return err
-	}
-
-	if rowsAffected == 0 {
-		return fmt.Errorf("userID %s not found", userId)
-	}
-
-	return err
+	return nil
 }
