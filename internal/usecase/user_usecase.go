@@ -71,8 +71,8 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	// Membuat token dari UUID user ditambah string acak
 	token := fmt.Sprintf("%s:%s", user.ID, utils.GenerateRandomString(16))
 
-	// Menentukan waktu kadaluarsa token
-	expirationTime := time.Now().Add(24 * time.Hour) // Misal, token berlaku selama 24 jam
+	// Menentukan waktu kadaluarsa acces token
+	expirationTime := time.Now().Add(15 * time.Minute) // Token berlaku selama 15 menit
 
 	// Menyiapkan data untuk disimpan di Redis
 	redisKey := fmt.Sprintf("tokens:%s", token) // Gunakan token sebagai kunci Redis
