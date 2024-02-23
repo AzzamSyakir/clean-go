@@ -71,7 +71,7 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	}
 
 	// Membuat token dari UUID user ditambah string acak
-	token := fmt.Sprintf("%s:%s", user.ID, utils.GenerateRandomString())
+	token := fmt.Sprintf("%s:%s", user.ID, utils.GenerateRandomString(16))
 
 	// Menentukan waktu kadaluarsa token
 	expirationTime := time.Now().Add(24 * time.Hour) // Misal, token berlaku selama 24 jam
