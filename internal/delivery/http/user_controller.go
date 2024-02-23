@@ -21,7 +21,6 @@ type UserController struct {
 func NewUserController(useCase *usecase.UserUseCase) *UserController {
 	return &UserController{UseCase: useCase}
 }
-
 func (c *UserController) Register(w http.ResponseWriter, r *http.Request) {
 	var user struct {
 		ID       string `json:"id"`
@@ -44,7 +43,7 @@ func (c *UserController) Register(w http.ResponseWriter, r *http.Request) {
 
 	currentTime := time.Now()
 
-	// Membuat objek data pengguna untuk dikirim dalam respons
+	// Create a user data object to be sent in the response
 	userData := struct {
 		Name      string    `json:"name"`
 		Email     string    `json:"email"`
@@ -59,6 +58,7 @@ func (c *UserController) Register(w http.ResponseWriter, r *http.Request) {
 
 	responses.SuccessResponse(w, "Success", userData, http.StatusCreated)
 }
+
 func (c *UserController) Fetch(w http.ResponseWriter, r *http.Request) {
 	usersData, err := c.UseCase.Fetch()
 	if err != nil {
@@ -74,7 +74,7 @@ func (c *UserController) Fetch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Membuat objek data pengguna untuk dikirim dalam respons
+	// Create a user data object to be sent in the response
 	var responseData []struct {
 		ID        string `json:"id"`
 		Username  string `json:"username"`
@@ -94,24 +94,24 @@ func (c *UserController) Fetch(w http.ResponseWriter, r *http.Request) {
 			ID:        user.ID,
 			Username:  user.Name,
 			Email:     user.Email,
-			CreatedAt: user.CreatedAt.String(), // Menggunakan String() untuk mendapatkan representasi string dari time.Time
-			UpdatedAt: user.UpdatedAt.String(), // Menggunakan String() untuk mendapatkan representasi string dari time.Time
+			CreatedAt: user.CreatedAt.String(), // Using String() to get string representation of time.Time
+			UpdatedAt: user.UpdatedAt.String(), // Using String() to get string representation of time.Time
 		}
 
 		responseData = append(responseData, userData)
 	}
 
-	// Mengembalikan data pengguna sebagai JSON
+	// Return user data as JSON
 	w.Header().Set("Content-Type", "internal/json")
 	responses.SuccessResponse(w, "Success", responseData, http.StatusOK)
 }
 
 func (c *UserController) Get(w http.ResponseWriter, r *http.Request) {
-	// Mendapatkan parameter id
+	// Get the id parameter
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
 	if !ok {
-		responses.ErrorResponse(w, "id harus disertakan", http.StatusBadRequest)
+		responses.ErrorResponse(w, "ID must be provided", http.StatusBadRequest)
 		return
 	}
 
@@ -122,7 +122,7 @@ func (c *UserController) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Membuat objek data pengguna untuk dikirim dalam respons
+	// Create a user data object to be sent in the response
 	responseData := struct {
 		Username  string `json:"username"`
 		Email     string `json:"email"`
@@ -131,21 +131,20 @@ func (c *UserController) Get(w http.ResponseWriter, r *http.Request) {
 	}{
 		Username:  userData.Name,
 		Email:     userData.Email,
-		CreatedAt: userData.CreatedAt.String(), // Menggunakan String() untuk mendapatkan representasi string dari time.Time
-		UpdatedAt: userData.UpdatedAt.String(), // Menggunakan String() untuk mendapatkan representasi string dari time.Time
+		CreatedAt: userData.CreatedAt.String(), // Using String() to get string representation of time.Time
+		UpdatedAt: userData.UpdatedAt.String(), // Using String() to get string representation of time.Time
 	}
 
-	// Mengembalikan data pengguna sebagai JSON
+	// Return user data as JSON
 	w.Header().Set("Content-Type", "internal/json")
 	responses.SuccessResponse(w, "Success", responseData, http.StatusOK)
 }
-
 func (c *UserController) Update(w http.ResponseWriter, r *http.Request) {
-	// Mendapatkan parameter id
+	// Get the id parameter
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
 	if !ok {
-		responses.ErrorResponse(w, "id harus disertakan", http.StatusBadRequest)
+		responses.ErrorResponse(w, "ID must be provided", http.StatusBadRequest)
 		return
 	}
 
@@ -155,7 +154,7 @@ func (c *UserController) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Update user in the usecaselayer
+	// Update user in the usecase layer
 	_, err := c.UseCase.Update(id, updatedUser)
 	if err != nil {
 		errorMessage := fmt.Sprintf("Failed to update user: %v", err)
@@ -165,7 +164,7 @@ func (c *UserController) Update(w http.ResponseWriter, r *http.Request) {
 
 	currentTime := time.Now()
 
-	// Membuat objek data pengguna untuk dikirim dalam respons
+	// Create a user data object to be sent in the response
 	updatedData := models.User{
 		Name:      updatedUser.Name,
 		Email:     updatedUser.Email,
@@ -176,69 +175,80 @@ func (c *UserController) Update(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "internal/json")
 	responses.SuccessResponse(w, "Success", updatedData, http.StatusOK)
 }
-
 func (c *UserController) Delete(w http.ResponseWriter, r *http.Request) {
-	// Mendapatkan parameter id
+	// Get the id parameter
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
 	if !ok {
-		responses.ErrorResponse(w, "id harus disertakan", http.StatusBadRequest)
+		responses.ErrorResponse(w, "ID must be provided", http.StatusBadRequest)
 		return
 	}
-	// delete user in the usecaselayer
+	// Delete user in the usecase layer
 	err := c.UseCase.Delete(id)
 	if err != nil {
-		errorMessage := fmt.Sprintf("Failed to Delete user: %v", err)
+		errorMessage := fmt.Sprintf("Failed to delete user: %v", err)
 		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)
 		return
 	}
 
 	responses.OtherResponses(w, "Success delete user", http.StatusOK)
 }
+
 func (c *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	var requestUser map[string]string
 
-	// Membaca data JSON dari body permintaan
+	// Read JSON from request body
 	if err := json.NewDecoder(r.Body).Decode(&requestUser); err != nil {
-		responses.ErrorResponse(w, "Gagal membaca data pengguna dari permintaan", http.StatusBadRequest)
+		responses.ErrorResponse(w, "Failed to read user data from request", http.StatusBadRequest)
 		return
 	}
 
-	// Mendapatkan email dan password dari data pengguna
+	// Get email and password from the user data
 	email, ok := requestUser["email"]
 	if !ok {
-		responses.ErrorResponse(w, "Email harus diisi", http.StatusBadRequest)
+		responses.ErrorResponse(w, "Email must be provided", http.StatusBadRequest)
 		return
 	}
 
 	password, ok := requestUser["password"]
 	if !ok {
-		responses.ErrorResponse(w, "Password harus diisi", http.StatusBadRequest)
+		responses.ErrorResponse(w, "Password must be provided", http.StatusBadRequest)
 		return
 	}
 
-	// Memanggil usecaseuntuk melakukan login
+	// Call the usecase to perform login
 	token, err := c.UseCase.Login(email, password)
 	if err != nil {
-		errorMessage := fmt.Sprintf("login failed: %v", err)
+		errorMessage := fmt.Sprintf("Login failed: %v", err)
 
 		responses.ErrorResponse(w, errorMessage, http.StatusUnauthorized)
 		return
 	}
 
-	// Mengembalikan token dan pesan sukses
-	response := map[string]string{"token": token}
-	responses.SuccessResponse(w, "Login berhasil", response, http.StatusOK)
+	// Add token to cookie
+	expiration := time.Now().Add(7 * 24 * time.Hour) // Expiration 7 days
+	cookie := http.Cookie{
+		Name:    "token",
+		Value:   token,
+		Expires: expiration,
+	}
+	http.SetCookie(w, &cookie)
+
+	// Respond with the token
+	response := map[string]interface{}{
+		"token": token,
+	}
+	json.NewEncoder(w).Encode(response)
 }
 
 func (c *UserController) Logout(w http.ResponseWriter, r *http.Request) {
-	// Mendapatkan token dari header "Authorization"
+	// Get the token from the "Authorization" header
 	tokenString := r.Header.Get("Authorization")
 
-	// Membersihkan token dari string "Bearer "
+	// Remove "Bearer " from the token string
 	tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
 
-	// Memanggil fungsi LogoutUser dari service
+	// Call the LogoutUser function from the service
 	err := c.UseCase.Logout(tokenString)
 	if err != nil {
 		errorMessage := fmt.Sprintf("Failed to logout user: %v", err)
@@ -246,6 +256,6 @@ func (c *UserController) Logout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Mengembalikan token yang baru setelah logout
-	responses.OtherResponses(w, "logout berhasil", http.StatusOK)
+	// Return a success message after logout
+	responses.OtherResponses(w, "Logout successful", http.StatusOK)
 }
