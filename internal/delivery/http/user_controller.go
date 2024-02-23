@@ -255,7 +255,7 @@ func (c *UserController) Logout(w http.ResponseWriter, r *http.Request) {
 		responses.ErrorResponse(w, errorMessage, http.StatusInternalServerError)
 		return
 	}
-	// Delete RefToken from cooki
+	// Delete RefToken from cookie
 	expiration := time.Now().AddDate(0, 0, -1) // Set the expiration time to the past
 	cookie := http.Cookie{
 		Name:    "token",
