@@ -4,6 +4,7 @@ import (
 	"clean-go/cache"
 	"clean-go/internal/entity"
 	"clean-go/internal/repository"
+	"clean-go/utils"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -70,7 +71,7 @@ func (c *UserUseCase) Login(email string, password string) (string, error) {
 	}
 
 	// Membuat token dari UUID user ditambah string acak
-	token := fmt.Sprintf("%s:%s", user.ID, randomString)
+	token := fmt.Sprintf("%s:%s", user.ID, utils.GenerateRandomString())
 
 	// Menentukan waktu kadaluarsa token
 	expirationTime := time.Now().Add(24 * time.Hour) // Misal, token berlaku selama 24 jam
