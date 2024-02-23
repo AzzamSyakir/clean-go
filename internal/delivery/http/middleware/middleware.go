@@ -30,7 +30,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		// Token valid, lanjutkan ke handler berikutnya
+		// Token valid, lanjutkan ke handler selanjutnya
 		next.ServeHTTP(w, r)
 	})
 }
