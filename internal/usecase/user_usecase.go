@@ -27,11 +27,7 @@ func NewUserUseCase(userRepository repository.UserRepository) *UserUseCase {
 // authentication
 
 
-func (c *UserUseCase) Logout(tokenString string) error {
-	redisKey := fmt.Sprintf("tokens:%s", tokenString) // Gunakan token sebagai kunci Redis
-	c.UserRepository.LogoutUser(redisKey)             //delete AccesTokentoken in redis
-	return nil
-}
+
 
 // basic user's operations
 func (c *UserUseCase) Fetch() ([]entity.User, error) {
