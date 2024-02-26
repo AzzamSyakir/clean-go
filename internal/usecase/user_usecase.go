@@ -24,10 +24,6 @@ func NewUserUseCase(userRepository repository.UserRepository) *UserUseCase {
 	}
 }
 
-// authentication
-
-
-
 
 // basic user's operations
 func (c *UserUseCase) Fetch() ([]entity.User, error) {
