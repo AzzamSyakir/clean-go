@@ -17,8 +17,6 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-
-
 func (ur *UserRepository) FetchUsers() ([]entity.User, error) {
 	rows, err := ur.db.Query("SELECT id, name, email, password, created_at, updated_at FROM users")
 	if err != nil {
