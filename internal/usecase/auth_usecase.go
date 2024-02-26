@@ -1,5 +1,18 @@
 package usecase
 
+
+
+type UserUseCase struct {
+	UserRepository repository.UserRepository
+}
+
+func NewUserUseCase(userRepository repository.UserRepository) *UserUseCase {
+	return &UserUseCase{
+		UserRepository: userRepository,
+	}
+}
+
+
 func (c *UserUseCase) Register(id string, name, email, password string) error {
 	// Hashing password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
