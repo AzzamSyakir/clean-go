@@ -7,7 +7,6 @@ type AuthController struct {
 func NewAuthController(useCase *usecase.AuthUseCase) *AuthController {
 	return &AuthController{UseCase: useCase}
 }
-
 func (c *UserController) Register(w http.ResponseWriter, r *http.Request) {
 	var user struct {
 		ID       string `json:"id"`
