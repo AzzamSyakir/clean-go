@@ -1,4 +1,4 @@
-package cache
+package redis
 
 import (
 	"clean-go/internal/entity"
@@ -45,7 +45,7 @@ func InitRedis(envPath string) *redis.Client {
 	// Uji koneksi ke Redis dan otentikasi
 	ctx := context.Background()
 	_, err = RedisClient.Ping(ctx).Result()
-	
+
 	if err != nil {
 		fmt.Println("Error connecting to Redis:", err)
 		// Hentikan program atau lakukan penanganan kesalahan sesuai kebutuhan Anda
